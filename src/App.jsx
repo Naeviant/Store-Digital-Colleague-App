@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Sidebar from './components/Sidebar';
 import Login from './components/Login';
+import Products from './components/Products';
 import Alert from '@material-ui/lab/Alert';
 import Collapse from '@material-ui/core/Collapse';
 
@@ -46,7 +47,10 @@ class App extends React.Component {
 				  	</Collapse>
 	                <main>
                 		<Switch>
-                			<Route path="/login">
+                			<Route exact path="/">
+                				<Products apiToken={this.state.apiToken} apiUser={this.state.apiUser} />
+                			</Route>
+                			<Route exact path="/login">
                 				<Login store={this.storeApiData} />
                 			</Route>
                 		</Switch>
