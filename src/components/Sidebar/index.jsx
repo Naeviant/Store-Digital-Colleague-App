@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -63,7 +64,7 @@ class Sidebar extends React.Component {
 	render() {
 		const { classes } = this.props;
 		return (
-			<div className="Sidebar">
+			<nav className="Sidebar">
 				<Drawer
 					className={classes.drawer}
 					variant="permanent"
@@ -95,16 +96,29 @@ class Sidebar extends React.Component {
 							    <SettingsIcon fontSize="large" className={classes.sidebarIcon} /> Settings
 							</Grid>
 						</Button>
-						<Button className={classes.sidebarButton} onClick={() => this.closeSubMenu()}>
-							<Grid container justify="center">
-							    <PersonIcon fontSize="large" className={classes.sidebarIcon} /> Login   
-							</Grid>
-						</Button>
+						{
+							this.props.token
+							?
+							<Button className={classes.sidebarButton} onClick={() => { this.closeSubMenu(); this.props.logout()}}>
+								<Grid container justify="center">
+								    <PersonIcon fontSize="large" className={classes.sidebarIcon} /> Logout   
+								</Grid>
+							</Button>
+							:
+							<Link to="/login">
+								<Button className={classes.sidebarButton} onClick={() => this.closeSubMenu()}>
+									<Grid container justify="center">
+									    <PersonIcon fontSize="large" className={classes.sidebarIcon} /> Login   
+									</Grid>
+								</Button>
+							</Link>
+						}
+						
 					</Box>
 				</Drawer>
 				<LocationsSidebar show={this.state.subMenu === 'locations'} close={this.closeSubMenu} />
 				<StockSidebar show={this.state.subMenu === 'stock'} close={this.closeSubMenu} />
-			</div>
+			</nav>
 		)
 	}
 }
