@@ -1,11 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 const useStyles = theme => ({
-
+	loginInput: {
+		minWidth: 400,
+		marginBottom: 10
+	},
 });
 
 class Login extends React.Component {
@@ -35,12 +42,36 @@ class Login extends React.Component {
 	}
 
 	render() {
+		const { classes } = this.props;
 		return (
-			<div className="Login">
-				<TextField id="username" type="text" onChange={this.onText} />
-				<TextField id="password" type="password" onChange={this.onText} />
-				<Button variant="contained" onClick={this.onSubmit}>Login</Button>
-			</div>
+			<Grid
+			  container
+			  spacing={0}
+			  direction="column"
+			  alignItems="center"
+			  justify="center"
+			  style={{ minHeight: '100vh' }}
+			>
+			  	<Grid item>
+				    <Card>
+						<CardContent>
+							<Grid item>
+								<Typography align="center" variant="h3" paragraph>Welcome</Typography>
+								<Typography align="center" variant="body1" paragraph>Please enter your credentials.</Typography>
+							</Grid>
+							<Grid item justify="center">
+								<TextField id="username" placeholder="Username" variant="outlined" type="text" onChange={this.onText} className={classes.loginInput} />
+							</Grid>
+							<Grid item justify="center">
+								<TextField id="password" placeholder="Password" variant="outlined" type="password" onChange={this.onText} className={classes.loginInput} />
+							</Grid>
+							<Grid item justify="center">
+								<Button variant="contained" size="large" color="primary" onClick={this.onSubmit} className={classes.loginInput}>Login</Button>
+							</Grid>
+						</CardContent>
+					</Card>
+			  	</Grid>   
+			</Grid>
 		)
 	}
 }
