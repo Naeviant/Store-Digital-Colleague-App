@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Alert from '@material-ui/lab/Alert';
+import Collapse from '@material-ui/core/Collapse';
 
 const useStyles = theme => ({
 	loginInput: {
@@ -22,7 +24,9 @@ class Login extends React.Component {
 		this.state = {
 			username: '',
 			password: '',
-			redirect: ''
+			redirect: '',
+			invalidCredentials: false,
+			serverError: false
 		};
 	}
 
@@ -36,10 +40,16 @@ class Login extends React.Component {
 			this.props.store(token.data.data, user.data.data);
 			this.setState({ ...this.state, redirect: '/' });
 		}, (error) => {
-			if (error.response.status) {
-				console.log('Invalid Credentials')
+			if (error.response.status === 401) {
+				this.setState({ ...this.state, invalidCredentials: true })
+				setTimeout(() => {
+					this.setState({ ...this.state, invalidCredentials: false })
+				}, 3000);
 			} else {
-				console.log('Something Went Wrong')
+				this.setState({ ...this.state, serverError: true })
+				setTimeout(() => {
+					this.setState({ ...this.state, serverError: false })
+				}, 3000);
 			}
 		});
 	}
@@ -60,6 +70,12 @@ class Login extends React.Component {
 				  style={{ minHeight: '100vh' }}
 				>
 				  	<Grid item>
+					  	<Collapse in={this.state.invalidCredentials}>
+					  		<Alert severity="warning">Invalid Credentials Provided</Alert>
+					  	</Collapse>
+					  	<Collapse in={this.state.serverError}>
+					  		<Alert severity="error">Something Went Wrong</Alert>
+					  	</Collapse>
 					    <Card>
 							<CardContent>
 								<Grid item>
