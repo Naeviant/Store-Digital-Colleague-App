@@ -34,6 +34,12 @@ class Login extends React.Component {
 		this.setState({ ...this.state, [e.target.id]: e.target.value })
 	}
 
+	onKeypress = (e) => {
+		if (e.key === 'Enter') {
+			this.onSubmit();
+		}
+	}
+
 	onSubmit = () => {
 		axios.post('/authenticate', this.state).then(async (token) => {
 			const user = await axios.get('/user/' + this.state.username, { headers: { Authorization: token.data.data } });
@@ -83,10 +89,26 @@ class Login extends React.Component {
 									<Typography align="center" variant="body1" paragraph>Please enter your credentials.</Typography>
 								</Grid>
 								<Grid item justify="center">
-									<TextField id="username" placeholder="Username" variant="outlined" type="text" onChange={this.onText} className={classes.loginInput} />
+									<TextField 
+										id="username" 
+										placeholder="Username" 
+										variant="outlined" 
+										type="text" 
+										onChange={this.onText} 
+										inputProps={{ onKeyDown: this.onKeypress }}
+										className={classes.loginInput}
+									/>
 								</Grid>
 								<Grid item justify="center">
-									<TextField id="password" placeholder="Password" variant="outlined" type="password" onChange={this.onText} className={classes.loginInput} />
+									<TextField 
+										id="password" 
+										placeholder="Password" 
+										variant="outlined" 
+										type="password" 
+										onChange={this.onText} 
+										inputProps={{ onKeyDown: this.onKeypress }}
+										className={classes.loginInput} 
+									/>
 								</Grid>
 								<Grid item justify="center">
 									<Button variant="contained" size="large" color="primary" onClick={this.onSubmit} className={classes.loginInput}>Login</Button>
