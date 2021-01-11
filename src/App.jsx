@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Sidebar from './components/Sidebar';
 import Login from './components/Login';
 import Products from './components/Products';
@@ -41,20 +41,32 @@ class App extends React.Component {
         return (
         	<Router>
 	            <div className="App">
-	                <Sidebar token={this.state.apiToken} logout={this.deleteApiData} />
-	                <Collapse in={this.state.banner} style={{ right: 0, position: 'absolute', width: 'calc(100% - 120px)' }}>
-				  		<Alert severity="success">{this.state.banner}</Alert>
-				  	</Collapse>
-	                <main>
-                		<Switch>
-                			<Route exact path="/">
-                				<Products apiToken={this.state.apiToken} apiUser={this.state.apiUser} />
-                			</Route>
-                			<Route exact path="/login">
-                				<Login store={this.storeApiData} />
-                			</Route>
-                		</Switch>
-	                </main>
+		            <Route exact path="/login">
+		            	<main>
+	        				<Login store={this.storeApiData} />
+        				</main>
+        			</Route>
+        			<Route path="/">
+        				{
+        					this.state.apiToken
+        					?
+        					<>
+	        					<Sidebar token={this.state.apiToken} logout={this.deleteApiData} />
+				                <Collapse in={this.state.banner} style={{ right: 0, position: 'absolute', width: 'calc(100% - 120px)' }}>
+							  		<Alert severity="success">{this.state.banner}</Alert>
+							  	</Collapse>
+				                <main className="withSidebar">
+			                		<Switch>
+			                			<Route exact path="/">
+			                				<Products apiToken={this.state.apiToken} apiUser={this.state.apiUser} />
+			                			</Route>
+			                		</Switch>
+				                </main>
+			                </>
+        					:
+        					<Redirect to="/login" />
+        				}
+	                </Route>
 	            </div>
             </Router>
         )

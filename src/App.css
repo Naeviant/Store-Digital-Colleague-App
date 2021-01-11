@@ -1,7 +1,10 @@
 main {
-	margin-left: 120px;
 	background-color: #EEE;
 	height: 100%;
+}
+
+main.withSidebar {
+	margin-left: 120px;
 }
 
 html, body {
