@@ -4,6 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { showBanner } from '../../actions/bannerActions';
+import CreateAssignment from './CreateAssignment';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
@@ -37,6 +38,10 @@ class LocationAssignmentsList extends React.Component {
 	}
 
 	componentDidMount() {
+		this.populateList();
+	}
+
+	populateList = () => {
 		axios.get('/assignment/location/' + this.props.apiUser.site.code +  '/' + this.props.match.params.aisle +  '/' + this.props.match.params.bay +  '/' + this.props.match.params.type, { headers: { Authorization: this.props.apiToken } }).then((assignments) => {
 			this.setState({ ...this.state, assignments: assignments.data.data, loading: false });
 		}, (error) => {
@@ -55,31 +60,34 @@ class LocationAssignmentsList extends React.Component {
 			);
 		}
 		return (
-			<Box m={1}>
-				<Card>
-					<CardContent className={classes.cardContent}>
-						<List component='nav'>
-							{
-								this.state.assignments.length === 0
-								?
-								<ListItemText primary='No Products Found' />
-								:
-								<Divider />
-							}
-							{
-								this.state.assignments.map(assignment => (
-									<React.Fragment key={assignment.product.ean + '-' +assignment.bay.aisle.aisle + '-' +assignment.bay.bay + '-' +assignment.type}>
-										<ListItem>
-											<ListItemText primary={assignment.product.name} secondary={assignment.product.ean} />
-										</ListItem>
-										<Divider />
-									</React.Fragment>
-								))
-							}
-						</List>	
-					</CardContent>
-				</Card>
-			</Box>
+			<>
+				<CreateAssignment update={this.populateList} />
+				<Box m={1}>
+					<Card>
+						<CardContent className={classes.cardContent}>
+							<List component='nav'>
+								{
+									this.state.assignments.length === 0
+									?
+									<ListItemText primary='No Products Found' />
+									:
+									<Divider />
+								}
+								{
+									this.state.assignments.map(assignment => (
+										<React.Fragment key={assignment.product.ean + '-' +assignment.bay.aisle.aisle + '-' +assignment.bay.bay + '-' +assignment.type}>
+											<ListItem>
+												<ListItemText primary={assignment.product.name} secondary={assignment.product.ean} />
+											</ListItem>
+											<Divider />
+										</React.Fragment>
+									))
+								}
+							</List>	
+						</CardContent>
+					</Card>
+				</Box>
+			</>
 		)
 	}
 }
