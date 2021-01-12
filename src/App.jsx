@@ -29,7 +29,10 @@ class App extends React.Component {
 			                				<Products />
 			                			</Route>
 			                			<Route exact path="/locations">
-			                				<Locations />
+			                				<Locations show="aisles" />
+			                			</Route>
+										<Route exact path="/locations/:aisle">
+			                				<Locations show="bays" />
 			                			</Route>
 			                		</Switch>
 				                </main>
