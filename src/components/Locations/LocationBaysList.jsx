@@ -5,6 +5,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { showBanner } from '../../actions/bannerActions';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -18,26 +20,38 @@ function ListItemLink(props) {
 }
 
 const useStyles = theme => ({
-
+	backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+	},
 });
 
 class LocationBaysList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			bays: []
+			bays: [],
+			loading: true
 		};
 	}
 
 	componentDidMount() {
 		axios.get('/bay/' + this.props.apiUser.site.code +  '/' + this.props.match.params.aisle, { headers: { Authorization: this.props.apiToken } }).then((bays) => {
-			this.setState({ ...this.state, bays: bays.data.data });
+			this.setState({ ...this.state, bays: bays.data.data, loading: false });
 		}, (error) => {
 			this.props.showBanner('Cannot Get Bays: Something Went Wrong', 'error');
 		});
 	}
 	
 	render() {
+		const { classes } = this.props;
+		if (this.state.loading) {
+			return (
+				<Backdrop className={classes.backdrop} open={this.state.loading}>
+        			<CircularProgress color="inherit" />
+				</Backdrop>
+			);
+		}
 		return (
 			<>
 				<Box m={1}>
