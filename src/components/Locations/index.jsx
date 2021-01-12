@@ -7,6 +7,7 @@ import LocationSearch from './LocationSearch';
 import LocationAislesList from './LocationAislesList';
 import LocationBaysList from './LocationBaysList';
 import LocationTypesList from './LocationTypesList';
+import LocationAssignmentsList from './LocationAssignmentsList';
 
 const useStyles = theme => ({
 
@@ -25,6 +26,9 @@ class Locations extends React.Component {
 				}
 				{
 					this.props.show === "types" && <LocationTypesList />
+				}
+				{
+					this.props.show === "assignments" && <LocationAssignmentsList />
 				}
 			</>
 		)

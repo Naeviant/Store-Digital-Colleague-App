@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
@@ -49,7 +50,7 @@ class LocationBaysList extends React.Component {
 									{
 										this.state.bay.allowsMultiLocation && 
 										<>
-										<ListItemLink>
+										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Multi-Location'}>
 											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Multi-Locations'} />
 										</ListItemLink>
 										<Divider />
@@ -58,7 +59,7 @@ class LocationBaysList extends React.Component {
 									{
 										this.state.bay.allowsClearance && 
 										<>
-										<ListItemLink>
+										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Clearance'}>
 											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Clearance'} />
 										</ListItemLink>
 										<Divider />
@@ -67,7 +68,7 @@ class LocationBaysList extends React.Component {
 									{
 										this.state.bay.allowsDisplay && 
 										<>
-										<ListItemLink>
+										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Display'}>
 											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Display'} />
 										</ListItemLink>
 										<Divider />
@@ -76,7 +77,7 @@ class LocationBaysList extends React.Component {
 									{
 										this.state.bay.allowsOverstock && 
 										<>
-										<ListItemLink>
+										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Overstock'}>
 											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Overstock'} />
 										</ListItemLink>
 										<Divider />
@@ -85,7 +86,7 @@ class LocationBaysList extends React.Component {
 									{
 										this.state.bay.allowsTopstock && 
 										<>
-										<ListItemLink>
+										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Topstock'}>
 											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Topstock'} />
 										</ListItemLink>
 										<Divider />
@@ -94,7 +95,7 @@ class LocationBaysList extends React.Component {
 									{
 										this.state.bay.allowsStockroom && 
 										<>
-										<ListItemLink>
+										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Stockroom'}>
 											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Stockroom'} />
 										</ListItemLink>
 										<Divider />
