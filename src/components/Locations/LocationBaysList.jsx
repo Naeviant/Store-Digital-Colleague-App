@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
@@ -30,7 +31,6 @@ class LocationBaysList extends React.Component {
 
 	componentDidMount() {
 		axios.get('/bay/' + this.props.apiUser.site.code +  '/' + this.props.match.params.aisle, { headers: { Authorization: this.props.apiToken } }).then((bays) => {
-			console.log(bays)
 			this.setState({ ...this.state, bays: bays.data.data });
 		}, (error) => {
 			this.props.showBanner('Cannot Get Bays: Something Went Wrong', 'error');
@@ -48,8 +48,8 @@ class LocationBaysList extends React.Component {
 								{
 									this.state.bays.map(bay => (
 										<>
-											<ListItemLink>
-												<ListItemText primary={bay.bay} />
+											<ListItemLink component={Link} to={'/locations/' + bay.aisle.aisle + '/' + bay.bay}>
+												<ListItemText primary={"Bay " + bay.bay} />
 											</ListItemLink>
 											<Divider />
 										</>

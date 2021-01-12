@@ -6,6 +6,7 @@ import { showBanner } from '../../actions/bannerActions';
 import LocationSearch from './LocationSearch';
 import LocationAislesList from './LocationAislesList';
 import LocationBaysList from './LocationBaysList';
+import LocationTypesList from './LocationTypesList';
 
 const useStyles = theme => ({
 
@@ -21,6 +22,9 @@ class Locations extends React.Component {
 				}
 				{
 					this.props.show === "bays" && <LocationBaysList />
+				}
+				{
+					this.props.show === "types" && <LocationTypesList />
 				}
 			</>
 		)
