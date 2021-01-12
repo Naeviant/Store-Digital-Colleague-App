@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { showBanner } from '../../actions/bannerActions';
 import CreateAssignment from './CreateAssignment';
+import DeleteAssignment from './DeleteAssignment';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
@@ -75,9 +76,10 @@ class LocationAssignmentsList extends React.Component {
 								}
 								{
 									this.state.assignments.map(assignment => (
-										<React.Fragment key={assignment.product.ean + '-' +assignment.bay.aisle.aisle + '-' +assignment.bay.bay + '-' +assignment.type}>
+										<React.Fragment key={assignment.product.ean + '-' + assignment.bay.aisle.aisle + '-' + assignment.bay.bay + '-' + assignment.type}>
 											<ListItem>
 												<ListItemText primary={assignment.product.name} secondary={assignment.product.ean} />
+												<DeleteAssignment update={this.populateList} ean={assignment.product.ean} />
 											</ListItem>
 											<Divider />
 										</React.Fragment>
