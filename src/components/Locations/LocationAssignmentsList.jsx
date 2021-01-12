@@ -20,6 +20,12 @@ const useStyles = theme => ({
 		zIndex: theme.zIndex.drawer + 1,
 		color: '#fff',
 	},
+	cardContent: {
+        "&:last-child": {
+            paddingTop: 8,
+            paddingBottom: 8
+        }
+    },
 });
 
 class LocationAssignmentsList extends React.Component {
@@ -52,9 +58,15 @@ class LocationAssignmentsList extends React.Component {
 			<>
 				<Box m={1}>
 					<Card>
-						<CardContent>
+						<CardContent className={classes.cardContent}>
 							<List component='nav'>
-								<Divider />
+								{
+									this.state.assignments.length === 0
+									?
+									<ListItemText primary='No Products Found' />
+									:
+									<Divider />
+								}
 								{
 									this.state.assignments.map(assignment => (
 										<>

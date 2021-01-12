@@ -23,6 +23,12 @@ const useStyles = theme => ({
 		zIndex: theme.zIndex.drawer + 1,
 		color: '#fff',
 	},
+	cardContent: {
+        "&:last-child": {
+            paddingTop: 8,
+            paddingBottom: 8
+        }
+    },
 });
 
 class LocationAislesList extends React.Component {
@@ -55,9 +61,15 @@ class LocationAislesList extends React.Component {
 			<>
 				<Box m={1}>
 					<Card>
-						<CardContent>
+						<CardContent className={classes.cardContent}>
 							<List component="nav">
-							<Divider />
+								{
+									this.state.aisles.length === 0
+									?
+									<ListItemText primary='No Aisles Found' />
+									:
+									<Divider />
+								}
 								{
 									this.state.aisles.map(aisle => (
 										<>

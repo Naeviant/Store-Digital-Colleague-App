@@ -24,6 +24,12 @@ const useStyles = theme => ({
 		zIndex: theme.zIndex.drawer + 1,
 		color: '#fff',
 	},
+	cardContent: {
+        "&:last-child": {
+            paddingTop: 8,
+            paddingBottom: 8
+        }
+    },
 });
 
 class LocationBaysList extends React.Component {
@@ -56,9 +62,15 @@ class LocationBaysList extends React.Component {
 			<>
 				<Box m={1}>
 					<Card>
-						<CardContent>
+						<CardContent className={classes.cardContent}>
 							<List component="nav">
-							<Divider />
+								{
+									this.state.bays.length === 0
+									?
+									<ListItemText primary='No Bays Found' />
+									:
+									<Divider />
+								}
 								{
 									this.state.bays.map(bay => (
 										<>
