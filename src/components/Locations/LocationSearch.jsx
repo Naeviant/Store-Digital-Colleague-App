@@ -41,10 +41,14 @@ class LocationSearch extends React.Component {
 		}
 	}
 
+	stopRedirect() {
+		this.setState({ ...this.state, redirect: '' });
+	}
+
 	render() {
 		if (this.state.redirect) {
 			this.props.history.push(this.state.redirect);
-			this.setState({ ...this.state, redirect: '' });
+			this.stopRedirect();
 		}
 		return (
 			<Box p={1}>

@@ -13,7 +13,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 
 const useStyles = theme => ({
 	backdrop: {
@@ -41,6 +40,7 @@ class LocationAssignmentsList extends React.Component {
 		axios.get('/assignment/location/' + this.props.apiUser.site.code +  '/' + this.props.match.params.aisle +  '/' + this.props.match.params.bay +  '/' + this.props.match.params.type, { headers: { Authorization: this.props.apiToken } }).then((assignments) => {
 			this.setState({ ...this.state, assignments: assignments.data.data, loading: false });
 		}, (error) => {
+			this.setState({ ...this.state, loading: false });
 			this.props.showBanner('Cannot Get Assignments: Something Went Wrong', 'error');
 		});
 	}
@@ -55,33 +55,31 @@ class LocationAssignmentsList extends React.Component {
 			);
 		}
 		return (
-			<>
-				<Box m={1}>
-					<Card>
-						<CardContent className={classes.cardContent}>
-							<List component='nav'>
-								{
-									this.state.assignments.length === 0
-									?
-									<ListItemText primary='No Products Found' />
-									:
-									<Divider />
-								}
-								{
-									this.state.assignments.map(assignment => (
-										<>
-											<ListItem>
-												<ListItemText primary={assignment.product.name} secondary={assignment.product.ean} />
-											</ListItem>
-											<Divider />
-										</>
-									))
-								}
-							</List>	
-						</CardContent>
-					</Card>
-				</Box>
-			</>
+			<Box m={1}>
+				<Card>
+					<CardContent className={classes.cardContent}>
+						<List component='nav'>
+							{
+								this.state.assignments.length === 0
+								?
+								<ListItemText primary='No Products Found' />
+								:
+								<Divider />
+							}
+							{
+								this.state.assignments.map(assignment => (
+									<React.Fragment key={assignment.product.ean + '-' +assignment.bay.aisle.aisle + '-' +assignment.bay.bay + '-' +assignment.type}>
+										<ListItem>
+											<ListItemText primary={assignment.product.name} secondary={assignment.product.ean} />
+										</ListItem>
+										<Divider />
+									</React.Fragment>
+								))
+							}
+						</List>	
+					</CardContent>
+				</Card>
+			</Box>
 		)
 	}
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { showBanner } from '../../actions/bannerActions';
@@ -29,37 +28,35 @@ class LocationNavigation extends React.Component {
 	render() {
         const { classes } = this.props;
 		return (
-			<>  
-                <Box m={1}>
-                    <Card>
-                        <CardContent className={classes.cardContent}>
-                            <Breadcrumbs>
-                                <Link to='/locations'>
-                                    <Typography color="textPrimary">{this.props.apiUser.site.name}</Typography>
+            <Box m={1}>
+                <Card>
+                    <CardContent className={classes.cardContent}>
+                        <Breadcrumbs>
+                            <Link to='/locations'>
+                                <Typography color="textPrimary">{this.props.apiUser.site.name}</Typography>
+                            </Link>
+                            {
+                                this.props.match.params.aisle &&
+                                <Link to={'/locations/' + this.props.match.params.aisle}>
+                                    <Typography color="textPrimary">{'Aisle ' + this.props.match.params.aisle}</Typography>
                                 </Link>
-                                {
-                                    this.props.match.params.aisle &&
-                                    <Link to={'/locations/' + this.props.match.params.aisle}>
-                                        <Typography color="textPrimary">{'Aisle ' + this.props.match.params.aisle}</Typography>
-                                    </Link>
-                                }
-                                {
-                                    this.props.match.params.bay &&
-                                    <Link to={'/locations/' + this.props.match.params.aisle + '/' + this.props.match.params.bay}>
-                                        <Typography color="textPrimary">{'Bay ' + this.props.match.params.bay}</Typography>
-                                    </Link>
-                                }
-                                {
-                                    this.props.match.params.type &&
-                                    <Link to={'#'}>
-                                        <Typography color="textPrimary">{this.props.match.params.type}</Typography>
-                                    </Link>
-                                }
-                            </Breadcrumbs>
-                        </CardContent>
-                    </Card>
-                </Box>
-			</>
+                            }
+                            {
+                                this.props.match.params.bay &&
+                                <Link to={'/locations/' + this.props.match.params.aisle + '/' + this.props.match.params.bay}>
+                                    <Typography color="textPrimary">{'Bay ' + this.props.match.params.bay}</Typography>
+                                </Link>
+                            }
+                            {
+                                this.props.match.params.type &&
+                                <Link to={'#'}>
+                                    <Typography color="textPrimary">{this.props.match.params.type}</Typography>
+                                </Link>
+                            }
+                        </Breadcrumbs>
+                    </CardContent>
+                </Card>
+            </Box>
 		)
 	}
 }

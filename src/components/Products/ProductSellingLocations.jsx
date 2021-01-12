@@ -49,7 +49,7 @@ class ProductSellingsLocations extends React.Component {
 							<TableBody>
 								{
 									this.props.sellingAssignments.map((row) => (
-										<TableRow>
+										<TableRow key={row.product.ean + '-' + row.bay.aisle.aisle + '-' + row.bay.bay + '-' + row.type}>
 											<TableCell>{row.bay.aisle.aisle}</TableCell>
 											<TableCell>{row.bay.bay}</TableCell>
 											<TableCell>{row.type}</TableCell>

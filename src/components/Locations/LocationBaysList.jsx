@@ -45,6 +45,7 @@ class LocationBaysList extends React.Component {
 		axios.get('/bay/' + this.props.apiUser.site.code +  '/' + this.props.match.params.aisle, { headers: { Authorization: this.props.apiToken } }).then((bays) => {
 			this.setState({ ...this.state, bays: bays.data.data, loading: false });
 		}, (error) => {
+			this.setState({ ...this.state, loading: false });
 			this.props.showBanner('Cannot Get Bays: Something Went Wrong', 'error');
 		});
 	}
@@ -59,33 +60,31 @@ class LocationBaysList extends React.Component {
 			);
 		}
 		return (
-			<>
-				<Box m={1}>
-					<Card>
-						<CardContent className={classes.cardContent}>
-							<List component="nav">
-								{
-									this.state.bays.length === 0
-									?
-									<ListItemText primary='No Bays Found' />
-									:
-									<Divider />
-								}
-								{
-									this.state.bays.map(bay => (
-										<>
-											<ListItemLink component={Link} to={'/locations/' + bay.aisle.aisle + '/' + bay.bay}>
-												<ListItemText primary={"Bay " + bay.bay} />
-											</ListItemLink>
-											<Divider />
-										</>
-									))
-								}
-							</List>	
-						</CardContent>
-					</Card>
-				</Box>
-			</>
+			<Box m={1}>
+				<Card>
+					<CardContent className={classes.cardContent}>
+						<List component="nav">
+							{
+								this.state.bays.length === 0
+								?
+								<ListItemText primary='No Bays Found' />
+								:
+								<Divider />
+							}
+							{
+								this.state.bays.map(bay => (
+									<React.Fragment key={bay.bay}>
+										<ListItemLink component={Link} to={'/locations/' + bay.aisle.aisle + '/' + bay.bay}>
+											<ListItemText primary={"Bay " + bay.bay} />
+										</ListItemLink>
+										<Divider />
+									</React.Fragment>
+								))
+							}
+						</List>	
+					</CardContent>
+				</Card>
+			</Box>
 		)
 	}
 }

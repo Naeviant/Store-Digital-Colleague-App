@@ -39,6 +39,7 @@ class LocationBaysList extends React.Component {
 		axios.get('/bay/' + this.props.apiUser.site.code +  '/' + this.props.match.params.aisle +  '/' + this.props.match.params.bay, { headers: { Authorization: this.props.apiToken } }).then((bay) => {
 			this.setState({ ...this.state, bay: bay.data.data, loading: false });
 		}, (error) => {
+			this.setState({ ...this.state, loading: false });
 			this.props.showBanner('Cannot Get Bay: Bay Not Found', 'error');
 		});
 	}
@@ -53,74 +54,72 @@ class LocationBaysList extends React.Component {
 			);
 		}
 		return (
-			<>
-				<Box m={1}>
-					{
-						this.state.bay.bay &&
-						<Card>
-							<CardContent>
-								<List component='nav'>
+			<Box m={1}>
+				{
+					this.state.bay.bay &&
+					<Card>
+						<CardContent>
+							<List component='nav'>
+								<Divider />
+								{
+									this.state.bay.allowsMultiLocation && 
+									<>
+									<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Multi-Location'}>
+										<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Multi-Locations'} />
+									</ListItemLink>
 									<Divider />
-									{
-										this.state.bay.allowsMultiLocation && 
-										<>
-										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Multi-Location'}>
-											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Multi-Locations'} />
-										</ListItemLink>
-										<Divider />
-										</>
-									}
-									{
-										this.state.bay.allowsClearance && 
-										<>
-										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Clearance'}>
-											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Clearance'} />
-										</ListItemLink>
-										<Divider />
-										</>
-									}
-									{
-										this.state.bay.allowsDisplay && 
-										<>
-										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Display'}>
-											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Display'} />
-										</ListItemLink>
-										<Divider />
-										</>
-									}
-									{
-										this.state.bay.allowsOverstock && 
-										<>
-										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Overstock'}>
-											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Overstock'} />
-										</ListItemLink>
-										<Divider />
-										</>
-									}
-									{
-										this.state.bay.allowsTopstock && 
-										<>
-										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Topstock'}>
-											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Topstock'} />
-										</ListItemLink>
-										<Divider />
-										</>
-									}
-									{
-										this.state.bay.allowsStockroom && 
-										<>
-										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Stockroom'}>
-											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Stockroom'} />
-										</ListItemLink>
-										<Divider />
-										</>
-									}
-								</List>	
-							</CardContent>
-						</Card>
-					}
-				</Box>
-			</>
+									</>
+								}
+								{
+									this.state.bay.allowsClearance && 
+									<>
+									<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Clearance'}>
+										<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Clearance'} />
+									</ListItemLink>
+									<Divider />
+									</>
+								}
+								{
+									this.state.bay.allowsDisplay && 
+									<>
+									<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Display'}>
+										<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Display'} />
+									</ListItemLink>
+									<Divider />
+									</>
+								}
+								{
+									this.state.bay.allowsOverstock && 
+									<>
+									<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Overstock'}>
+										<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Overstock'} />
+									</ListItemLink>
+									<Divider />
+									</>
+								}
+								{
+									this.state.bay.allowsTopstock && 
+									<>
+									<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Topstock'}>
+										<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Topstock'} />
+									</ListItemLink>
+									<Divider />
+									</>
+								}
+								{
+									this.state.bay.allowsStockroom && 
+									<>
+									<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Stockroom'}>
+										<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Stockroom'} />
+									</ListItemLink>
+									<Divider />
+									</>
+								}
+							</List>	
+						</CardContent>
+					</Card>
+				}
+			</Box>
 		)
 	}
 }

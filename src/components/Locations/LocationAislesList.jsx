@@ -44,6 +44,7 @@ class LocationAislesList extends React.Component {
 		axios.get('/aisle/' + this.props.apiUser.site.code, { headers: { Authorization: this.props.apiToken } }).then((aisles) => {
 			this.setState({ ...this.state, aisles: aisles.data.data, loading: false });
 		}, (error) => {
+			this.setState({ ...this.state, loading: false });
 			this.props.showBanner('Cannot Get Aisles: Something Went Wrong', 'error');
 		});
 	}
@@ -58,33 +59,31 @@ class LocationAislesList extends React.Component {
 			);
 		}
 		return (
-			<>
-				<Box m={1}>
-					<Card>
-						<CardContent className={classes.cardContent}>
-							<List component="nav">
-								{
-									this.state.aisles.length === 0
-									?
-									<ListItemText primary='No Aisles Found' />
-									:
-									<Divider />
-								}
-								{
-									this.state.aisles.map(aisle => (
-										<>
-											<ListItemLink key={aisle.aisle} component={Link} to={"/locations/" + aisle.aisle}>
-												<ListItemText primary={aisle.aisle + " - " + aisle.name} />
-											</ListItemLink>
-											<Divider />
-										</>
-									))
-								}
-							</List>	
-						</CardContent>
-					</Card>
-				</Box>
-			</>
+			<Box m={1}>
+				<Card>
+					<CardContent className={classes.cardContent}>
+						<List component="nav">
+							{
+								this.state.aisles.length === 0
+								?
+								<ListItemText primary='No Aisles Found' />
+								:
+								<Divider />
+							}
+							{
+								this.state.aisles.map(aisle => (
+									<React.Fragment key={aisle.aisle}>
+										<ListItemLink component={Link} to={"/locations/" + aisle.aisle}>
+											<ListItemText primary={aisle.aisle + " - " + aisle.name} />
+										</ListItemLink>
+										<Divider />
+									</React.Fragment>
+								))
+							}
+						</List>	
+					</CardContent>
+				</Card>
+			</Box>
 		)
 	}
 }

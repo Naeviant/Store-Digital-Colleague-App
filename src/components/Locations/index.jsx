@@ -1,8 +1,5 @@
 import React from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { showBanner } from '../../actions/bannerActions';
 import LocationSearch from './LocationSearch';
 import LocationNavigation from './LocationNavigation';
 import LocationAislesList from './LocationAislesList';

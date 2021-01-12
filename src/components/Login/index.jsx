@@ -75,7 +75,7 @@ class Login extends React.Component {
 									<Typography align="center" variant="h3" paragraph>Welcome</Typography>
 									<Typography align="center" variant="body1" paragraph>Please enter your credentials.</Typography>
 								</Grid>
-								<Grid item justify="center">
+								<Grid item>
 									<TextField 
 										id="username" 
 										placeholder="Username" 
@@ -86,7 +86,7 @@ class Login extends React.Component {
 										className={classes.loginInput}
 									/>
 								</Grid>
-								<Grid item justify="center">
+								<Grid item>
 									<TextField 
 										id="password" 
 										placeholder="Password" 
@@ -97,7 +97,7 @@ class Login extends React.Component {
 										className={classes.loginInput} 
 									/>
 								</Grid>
-								<Grid item justify="center">
+								<Grid item>
 									<Button variant="contained" size="large" color="primary" onClick={this.onSubmit} className={classes.loginInput}>Login</Button>
 								</Grid>
 							</CardContent>
