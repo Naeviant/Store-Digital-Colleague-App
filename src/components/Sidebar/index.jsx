@@ -76,7 +76,7 @@ class Sidebar extends React.Component {
 					anchor="left"
 				>
 					<Box className={classes.sidebarTop}>
-						<Button className={classes.sidebarButton} onClick={() => this.closeSubMenu()}>
+						<Button component={Link} to="/" className={classes.sidebarButton} onClick={() => this.closeSubMenu()}>
 							<Grid container justify="center">
 							    <GradeIcon fontSize="large" className={classes.sidebarIcon} /> Products
 							</Grid>

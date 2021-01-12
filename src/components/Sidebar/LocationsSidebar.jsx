@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -27,8 +28,10 @@ const useStyles = theme => ({
 	},
 	list: {
 		marginTop: 20,
-		color: 'white',
 		fontWeight: 'bold',
+	},
+	listLink: {
+		color: 'white',
 	},
 	backdrop: {
 		marginLeft: 120,
@@ -57,8 +60,8 @@ class LocationsSidebar extends React.Component {
 					}}
 				>
 					<List component="nav" className={classes.list}>
-				    	<ListItemLink href="#">
-				        	<ListItemText primary="Location Management" />
+				    	<ListItemLink component={Link} to="/locations" onClick={this.props.close}>
+				        	<ListItemText primary="Location Management" className={classes.listLink} />
 				        </ListItemLink>
 				        <ListItemLink href="#">
 				        	<ListItemText primary="Product Modules" />

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Sidebar from './components/Sidebar';
 import Login from './components/Login';
 import Products from './components/Products';
+import Locations from './components/Locations';
 import Alert from '@material-ui/lab/Alert';
 import Collapse from '@material-ui/core/Collapse';
 
@@ -25,7 +26,10 @@ class App extends React.Component {
 				                <main className="withSidebar">
 			                		<Switch>
 			                			<Route exact path="/">
-			                				<Products site={this.props.apiUser.site.code} />
+			                				<Products />
+			                			</Route>
+			                			<Route exact path="/locations">
+			                				<Locations />
 			                			</Route>
 			                		</Switch>
 				                </main>

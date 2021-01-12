@@ -37,8 +37,8 @@ class Products extends React.Component {
 	}
 
 	search = () => {
-		axios.get('/product/quantity/' + this.props.site + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((product) => {
-			axios.get('/assignment/product/' + this.props.site + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((assignments) => {
+		axios.get('/product/quantity/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((product) => {
+			axios.get('/assignment/product/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((assignments) => {
 				const sellingAssignments = assignments.data.data.filter((x) => { return ['Multi-Location', 'Clearance', 'Display'].indexOf(x.type) > -1 });
 				const nonSellingAssignments = assignments.data.data.filter((x) => { return ['Overstock', 'Topstock', 'Stockroom'].indexOf(x.type) > -1 });
 				this.setState({ ...this.state, product: product.data.data, sellingAssignments: sellingAssignments, nonSellingAssignments: nonSellingAssignments });
@@ -73,4 +73,9 @@ class Products extends React.Component {
 	}
 }
 
-export default connect(null, { showBanner })(withStyles(useStyles)(Products));
+const mapStateToProps = state => ({
+	apiToken: state.auth.apiToken,
+	apiUser: state.auth.apiUser
+});
+
+export default connect(mapStateToProps, { showBanner })(withStyles(useStyles)(Products));
