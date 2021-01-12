@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import { showBanner } from '../../actions/bannerActions';
 import ProductSearch from './ProductSearch';
 import ProductHeader from './ProductHeader';
 import ProductQuantity from './ProductQuantity';
@@ -35,16 +37,20 @@ class Products extends React.Component {
 	}
 
 	search = () => {
-		axios.get('/product/quantity/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((product) => {
-			axios.get('/assignment/product/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((assignments) => {
+		axios.get('/product/quantity/' + this.props.site + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((product) => {
+			axios.get('/assignment/product/' + this.props.site + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((assignments) => {
 				const sellingAssignments = assignments.data.data.filter((x) => { return ['Multi-Location', 'Clearance', 'Display'].indexOf(x.type) > -1 });
 				const nonSellingAssignments = assignments.data.data.filter((x) => { return ['Overstock', 'Topstock', 'Stockroom'].indexOf(x.type) > -1 });
 				this.setState({ ...this.state, product: product.data.data, sellingAssignments: sellingAssignments, nonSellingAssignments: nonSellingAssignments });
 			}, (error) => {
-				console.log('Error')
+				this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
 			});
 		}, (error) => {
-			console.log('Error')
+			if (error.response.status === 400) {
+				this.props.showBanner('Cannot Get Product: EAN Not Found', 'error');
+			} else {
+				this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
+			}
 		});
 	}
 
@@ -67,4 +73,4 @@ class Products extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(Products);
+export default connect(null, { showBanner })(withStyles(useStyles)(Products));

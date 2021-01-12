@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { logout } from '../../actions/authActions';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -123,4 +125,4 @@ class Sidebar extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(Sidebar);
+export default connect(null, { logout })(withStyles(useStyles)(Sidebar));

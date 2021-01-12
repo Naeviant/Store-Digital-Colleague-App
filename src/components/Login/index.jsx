@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from "react-router-dom";
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { login } from '../../actions/authActions';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -23,10 +24,7 @@ class Login extends React.Component {
 		super(props);
 		this.state = {
 			username: '',
-			password: '',
-			redirect: '',
-			invalidCredentials: false,
-			serverError: false
+			password: ''
 		};
 	}
 
@@ -41,29 +39,18 @@ class Login extends React.Component {
 	}
 
 	onSubmit = () => {
-		axios.post('/authenticate', this.state).then(async (token) => {
-			const user = await axios.get('/user/' + this.state.username, { headers: { Authorization: token.data.data } });
-			this.props.store(token.data.data, user.data.data);
-			this.setState({ ...this.state, redirect: '/' });
-		}, (error) => {
-			if (error.response.status === 401) {
-				this.setState({ ...this.state, invalidCredentials: true })
-				setTimeout(() => {
-					this.setState({ ...this.state, invalidCredentials: false })
-				}, 3000);
-			} else {
-				this.setState({ ...this.state, serverError: true })
-				setTimeout(() => {
-					this.setState({ ...this.state, serverError: false })
-				}, 3000);
-			}
-		});
+		const loginData = {
+			username: this.state.username,
+			password: this.state.password
+		}
+
+		this.props.login(loginData);
 	}
 
 	render() {
 		const { classes } = this.props;
-		if (this.state.redirect) {
-			return <Redirect to={this.state.redirect} />;
+		if (this.props.apiToken) {
+			return <Redirect to="/" />;
 		}
 		else {
 			return (
@@ -76,10 +63,10 @@ class Login extends React.Component {
 				  style={{ minHeight: '100vh' }}
 				>
 				  	<Grid item>
-					  	<Collapse in={this.state.invalidCredentials}>
+					  	<Collapse in={this.props.invalidCredentials}>
 					  		<Alert severity="warning">Invalid Credentials Provided</Alert>
 					  	</Collapse>
-					  	<Collapse in={this.state.serverError}>
+					  	<Collapse in={this.props.serverError}>
 					  		<Alert severity="error">Something Went Wrong</Alert>
 					  	</Collapse>
 					    <Card>
@@ -122,4 +109,11 @@ class Login extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(Login);
+const mapStateToProps = state => ({
+	apiToken: state.auth.apiToken,
+	apiUser: state.auth.apiUser,
+	invalidCredentials: state.auth.invalidCredentials,
+	serverError: state.auth.serverError
+});
+
+export default connect(mapStateToProps, { login })(withStyles(useStyles)(Login));

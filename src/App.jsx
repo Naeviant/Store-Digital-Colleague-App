@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { connect } from 'react-redux';
 import Sidebar from './components/Sidebar';
 import Login from './components/Login';
 import Products from './components/Products';
@@ -9,68 +10,41 @@ import Collapse from '@material-ui/core/Collapse';
 import './App.css';
 
 class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			apiToken: '',
-			apiUser: '',
-			showBanner: ''
-		};
-	}
-
-	storeApiData = (token, user) => {
-		this.setState({ ...this.state, apiToken: token, apiUser: user }, () => {
-			this.showBanner('You have been successfully logged in');
-		});
-	}
-
-	deleteApiData = () => {
-		this.setState({ ...this.state, apiToken: '', apiUser: '' }, () => {
-			this.showBanner('You have been successfully logged out');
-		});
-	}
-
-	showBanner = (text) => {
-		this.setState({ ...this.state, banner: text });
-		setTimeout(() => {
-			this.setState({ ...this.state, banner: '' });
-		}, 3000);
-	}
-
-    render() {
-        return (
-        	<Router>
-	            <div className="App">
-		            <Route exact path="/login">
-		            	<main>
-	        				<Login store={this.storeApiData} />
-        				</main>
-        			</Route>
-        			<Route path="/">
-        				{
-        					this.state.apiToken
-        					?
-        					<>
-	        					<Sidebar token={this.state.apiToken} logout={this.deleteApiData} />
-				                <Collapse in={this.state.banner} style={{ right: 0, position: 'absolute', width: 'calc(100% - 120px)' }}>
-							  		<Alert severity="success">{this.state.banner}</Alert>
+	render() {
+		return (
+			<div className="App">
+				<Router>
+					{
+						this.props.apiUser && this.props.apiUser.username
+						?
+							<>
+								<Sidebar token={this.props.apiToken} />
+				                <Collapse in={this.props.banner.text} style={{ right: 0, position: 'absolute', width: 'calc(100% - 120px)' }}>
+							  		<Alert severity={this.props.banner.severity}>{this.props.banner.text}</Alert>
 							  	</Collapse>
 				                <main className="withSidebar">
 			                		<Switch>
 			                			<Route exact path="/">
-			                				<Products apiToken={this.state.apiToken} apiUser={this.state.apiUser} />
+			                				<Products site={this.props.apiUser.site.code} />
 			                			</Route>
 			                		</Switch>
 				                </main>
-			                </>
-        					:
-        					<Redirect to="/login" />
-        				}
-	                </Route>
-	            </div>
-            </Router>
-        )
-    }
+							</>
+						:
+						<main>
+							<Login />
+						</main>
+					}
+				</Router>
+			</div>
+		)
+	}
 }
 
-export default App;
+const mapStateToProps = state => ({
+	apiToken: state.auth.apiToken,
+	apiUser: state.auth.apiUser,
+	banner: state.banner.banner
+});
+
+export default connect(mapStateToProps, null)(App);
