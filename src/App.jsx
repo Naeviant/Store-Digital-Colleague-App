@@ -39,6 +39,9 @@ class App extends React.Component {
 										<Route exact path="/locations/:aisle/:bay">
 			                				<Locations show="types" />
 			                			</Route>
+										<Route exact path="/locations/:aisle/:bay/Modules">
+			                				<Locations show="modules" />
+			                			</Route>
 										<Route exact path="/locations/:aisle/:bay/:type">
 			                				<Locations show="assignments" />
 			                			</Route>

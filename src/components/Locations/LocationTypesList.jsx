@@ -31,13 +31,19 @@ class LocationBaysList extends React.Component {
 		super(props);
 		this.state = {
 			bay: {},
+			modules: [],
 			loading: true
 		};
 	}
 
 	componentDidMount() {
 		axios.get('/bay/' + this.props.apiUser.site.code +  '/' + this.props.match.params.aisle +  '/' + this.props.match.params.bay, { headers: { Authorization: this.props.apiToken } }).then((bay) => {
-			this.setState({ ...this.state, bay: bay.data.data, loading: false });
+			axios.get('/module/site/' + this.props.apiUser.site.code +  '/' + this.props.match.params.aisle +  '/' + this.props.match.params.bay, { headers: { Authorization: this.props.apiToken } }).then((modules) => {
+				this.setState({ ...this.state, bay: bay.data.data, modules: modules.data.data, loading: false });
+			}, (error) => {
+				this.setState({ ...this.state, loading: false });
+				this.props.showBanner('Cannot Get Bay: Bay Not Found', 'error');
+			});
 		}, (error) => {
 			this.setState({ ...this.state, loading: false });
 			this.props.showBanner('Cannot Get Bay: Bay Not Found', 'error');
@@ -61,6 +67,15 @@ class LocationBaysList extends React.Component {
 						<CardContent>
 							<List component='nav'>
 								<Divider />
+								{
+									this.state.modules.length > 0 &&
+									<>
+										<ListItemLink component={Link} to={'/locations/' + this.state.bay.aisle.aisle + '/' + this.state.bay.bay + '/Modules'}>
+											<ListItemText primary={'Aisle ' + this.state.bay.aisle.aisle + ', Bay ' + this.state.bay.bay + ' - Modules'} />
+										</ListItemLink>
+										<Divider />
+									</>
+								}
 								{
 									this.state.bay.allowsMultiLocation && 
 									<>
