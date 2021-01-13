@@ -10,10 +10,12 @@ import Button from '@material-ui/core/Button';
 import GradeIcon from '@material-ui/icons/Grade';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PersonIcon from '@material-ui/icons/Person';
 import LocationsSidebar from './LocationsSidebar';
 import StockSidebar from './StockSidebar';
+import CollectionsSidebar from './CollectionsSidebar';
 
 const drawerWidth = 120;
 
@@ -91,6 +93,11 @@ class Sidebar extends React.Component {
 							    <AirportShuttleIcon fontSize="large" className={classes.sidebarIcon} /> Stock
 							</Grid>
 						</Button>
+						<Button className={classes.sidebarButton} onClick={() => this.openSubMenu('collections')}>
+							<Grid container justify="center">
+							    <AssignmentIcon fontSize="large" className={classes.sidebarIcon} /> Collections
+							</Grid>
+						</Button>
 					</Box>
 					<Box className={classes.sidebarBottom}>
 						<Button className={classes.sidebarButton} onClick={() => this.closeSubMenu()}>
@@ -120,6 +127,7 @@ class Sidebar extends React.Component {
 				</Drawer>
 				<LocationsSidebar show={this.state.subMenu === 'locations'} close={this.closeSubMenu} />
 				<StockSidebar show={this.state.subMenu === 'stock'} close={this.closeSubMenu} />
+				<CollectionsSidebar show={this.state.subMenu === 'collections'} close={this.closeSubMenu} />
 			</nav>
 		)
 	}
