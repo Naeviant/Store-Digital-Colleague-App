@@ -27,7 +27,7 @@ class ProductHeader extends React.Component {
 							</Grid>
 							<Grid item xs={4}>
 								<Typography variant="h5" align="right">£{this.props.product.price.toFixed(2)}</Typography>
-								<Typography align="right"><StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon /></Typography>
+								<Typography align="right" color='textSecondary'><StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon /></Typography>
 							</Grid>
 						</Grid>
 					</Box>
