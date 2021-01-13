@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import Login from './components/Login';
 import Products from './components/Products';
 import Locations from './components/Locations';
+import Modules from './components/Modules';
 import Alert from '@material-ui/lab/Alert';
 import Collapse from '@material-ui/core/Collapse';
 
@@ -40,6 +41,9 @@ class App extends React.Component {
 										<Route exact path="/locations/:aisle/:bay/:type">
 			                				<Locations show="assignments" />
 			                			</Route>
+										<Route exact path="/modules/">
+											<Modules />
+										</Route>
 			                		</Switch>
 				                </main>
 							</>

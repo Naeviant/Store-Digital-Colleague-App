@@ -63,8 +63,8 @@ class LocationsSidebar extends React.Component {
 				    	<ListItemLink component={Link} to="/locations" onClick={this.props.close}>
 				        	<ListItemText primary="Location Management" className={classes.listLink} />
 				        </ListItemLink>
-				        <ListItemLink href="#">
-				        	<ListItemText primary="Product Modules" />
+				        <ListItemLink component={Link} to="/modules" onClick={this.props.close}>
+				        	<ListItemText primary="Product Modules" className={classes.listLink} />
 				        </ListItemLink>
 				      </List>
 				</Drawer>
