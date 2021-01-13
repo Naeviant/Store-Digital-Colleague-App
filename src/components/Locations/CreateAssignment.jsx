@@ -38,7 +38,7 @@ class CreateAssignment extends React.Component {
             type: this.props.match.params.type
         }, { headers: { Authorization: this.props.apiToken } }).then((resp) => {
             this.props.update();
-            this.props.showBanner('Product Successfully Assigned to Location', 'success');
+			this.props.showBanner('Product Successfully Assigned to Location', 'success');
 		}, (error) => {
 			switch(error.response.data.description) {
                 case 'Invalid EAN Provided':

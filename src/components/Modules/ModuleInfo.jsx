@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ModuleHeader from './ModuleHeader';
+import ModuleLocation from './ModuleLocation';
 import ModuleProducts from './ModuleProducts';
 
 const useStyles = theme => ({
@@ -47,6 +48,7 @@ class ModuleInfo extends React.Component {
 		return (
 			<>
 				<ModuleHeader module={this.state.module.module} />
+				<ModuleLocation discriminator={this.state.module.module.discriminator} bay={this.state.module.bay} />
 				<ModuleProducts products={this.state.module.module.products} />
 			</>
 		);
