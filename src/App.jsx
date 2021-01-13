@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Products from './components/Products';
 import Locations from './components/Locations';
 import Modules from './components/Modules';
+import ModuleInfo from './components/Modules/ModuleInfo';
 import Alert from '@material-ui/lab/Alert';
 import Collapse from '@material-ui/core/Collapse';
 
@@ -43,6 +44,9 @@ class App extends React.Component {
 			                			</Route>
 										<Route exact path="/modules/">
 											<Modules />
+										</Route>
+										<Route exact path="/modules/:discriminator">
+											<ModuleInfo />
 										</Route>
 			                		</Switch>
 				                </main>
