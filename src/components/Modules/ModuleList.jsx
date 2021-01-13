@@ -31,7 +31,7 @@ class Modules extends React.Component {
 						<Divider />
 						{
 							this.props.modules.map(module => (
-								<>
+								<React.Fragment key={module.module.discriminator}>
 									<ListItemLink component={Link} to={'/modules/' + module.module.discriminator}>
 										<ListItemText primary={module.module.name} secondary={module.module.discriminator} />
 										<ListItemText primary={
@@ -47,7 +47,7 @@ class Modules extends React.Component {
 										} />
 									</ListItemLink>
 									<Divider />
-								</>
+								</React.Fragment>
 							))
 						}
 					</List>

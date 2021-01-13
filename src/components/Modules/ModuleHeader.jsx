@@ -30,7 +30,7 @@ class ModuleHeader extends React.Component {
 										<Typography variant="subtitle2">{this.props.module.discriminator}</Typography>
 								</Grid>
 								<Grid item xs={4}>
-									<Grid container spacing={3} direction="column" alignItems="right" justify="center" style={{ minHeight: 86 }}>
+									<Grid container spacing={3} direction="column" alignItems="flex-end" justify="center" style={{ minHeight: 86 }}>
 										<Grid item>
 											<Typography variant="body1" align="right">{
 												this.props.module.startDate.split('-')[2].split('T')[0] 

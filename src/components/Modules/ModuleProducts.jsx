@@ -26,7 +26,6 @@ const useStyles = theme => ({
 class ModuleProducts extends React.Component {
 	render() {
 		const { classes } = this.props;
-		console.log(this.props)
 		return (
 			<Box m={1}>
 				<Card>
@@ -48,7 +47,7 @@ class ModuleProducts extends React.Component {
 							<TableBody>
 								{
 									this.props.products.map((row, index) => (
-										<TableRow key={row.ean}>
+										<TableRow key={index}>
 											<TableCell className={classes.tableCell}>
 												<ListItemText primary={row.product.name} secondary={row.product.ean} />
 											</TableCell>
