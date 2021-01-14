@@ -22,7 +22,7 @@ const useStyles = theme => ({
 		color: '#fff',
 	},
 	cardContent: {
-        "&:last-child": {
+        '&:last-child': {
             paddingTop: 8,
             paddingBottom: 8
         }
@@ -56,7 +56,7 @@ class DeliveryProducts extends React.Component {
         if (this.state.loading) {
 			return (
 				<Backdrop className={classes.backdrop} open={this.state.loading}>
-        			<CircularProgress color="inherit" />
+        			<CircularProgress color='inherit' />
 				</Backdrop>
 			);
 		}
@@ -66,7 +66,7 @@ class DeliveryProducts extends React.Component {
 					<Card>
 						<CardContent className={classes.cardContent}>
 							<Link to={'/deliveries/' + this.props.match.params.type}>
-								<Typography color="textPrimary">Go Back</Typography>
+								<Typography color='textPrimary'>Go Back</Typography>
 							</Link>
 						</CardContent>
 					</Card>
@@ -78,10 +78,10 @@ class DeliveryProducts extends React.Component {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell className={classes.tableCell}>
-                                            <Typography variant="h6">Product</Typography>
+                                            <Typography variant='h6'>Product</Typography>
                                         </TableCell>
                                         <TableCell className={classes.tableCell}>
-                                            <Typography variant="h6">Quantity</Typography>
+                                            <Typography variant='h6'>Quantity</Typography>
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
