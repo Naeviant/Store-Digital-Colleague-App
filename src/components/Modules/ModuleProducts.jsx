@@ -30,7 +30,7 @@ class ModuleProducts extends React.Component {
 			<Box m={1}>
 				<Card>
 					<CardContent className={classes.cardContent}>
-						<Table className={classes.table} aria-label="simple table">
+						<Table>
 							<TableHead>
 								<TableRow>
 									<TableCell className={classes.tableCell}>

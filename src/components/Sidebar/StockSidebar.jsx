@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -57,10 +58,10 @@ class StockSidebar extends React.Component {
 					}}
 				>
 					<List component="nav" className={classes.list}>
-				    	<ListItemLink href="#">
+				    	<ListItemLink component={Link} to="/deliveries/inbound" href="#">
 				        	<ListItemText primary="Inbound Stock" />
 				        </ListItemLink>
-				        <ListItemLink href="#">
+				        <ListItemLink component={Link} to="/deliveries/outbound" href="#">
 				        	<ListItemText primary="Outbound Stock" />
 				        </ListItemLink>
 				        <ListItemLink href="#">

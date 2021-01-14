@@ -7,6 +7,7 @@ import Products from './components/Products';
 import Locations from './components/Locations';
 import Modules from './components/Modules';
 import ModuleInfo from './components/Modules/ModuleInfo';
+import Deliveries from './components/Deliveries';
 import Alert from '@material-ui/lab/Alert';
 import Collapse from '@material-ui/core/Collapse';
 
@@ -50,6 +51,9 @@ class App extends React.Component {
 										</Route>
 										<Route exact path="/modules/:discriminator">
 											<ModuleInfo />
+										</Route>
+										<Route exact path="/deliveries/:type">
+											<Deliveries key={window.location.pathname} />
 										</Route>
 			                		</Switch>
 				                </main>

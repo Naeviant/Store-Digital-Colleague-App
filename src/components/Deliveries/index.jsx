@@ -1,0 +1,158 @@
+import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+import { showBanner } from '../../actions/bannerActions';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = theme => ({
+	backdrop: {
+		zIndex: theme.zIndex.drawer + 1,
+		color: '#fff',
+	},
+	cardContent: {
+        "&:last-child": {
+            paddingTop: 8,
+            paddingBottom: 8
+        }
+	},
+	tableCell: {
+		padding: 8
+	},
+});
+
+class Deliveries extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			loading: true,
+			deliveries: []
+		};
+	}
+
+	componentDidMount() {
+		this.getDeliveries();
+	}
+	
+	componentDidUpdate(prevProps) {
+		if (this.props.match.params.type !== prevProps.match.params.type) {
+			this.setState({ ...this.state, deliveries: [], loading: true });
+			this.getDeliveries();
+		}
+	}
+
+	getDeliveries = () => {
+		axios.get('/delivery/' + this.props.match.params.type + '/' + this.props.apiUser.site.code, { headers: { Authorization: this.props.apiToken } }).then((deliveries) => {
+            this.setState({ ...this.state, deliveries: deliveries.data.data, loading: false });
+		}, (error) => {
+			this.setState({ ...this.state, loading: false });
+			this.props.showBanner('Cannot Get Deliveries: Something Went Wrong', 'error');
+		});
+	}
+
+	render() {
+		const { classes } = this.props;
+		if (this.state.loading) {
+			return (
+				<Backdrop className={classes.backdrop} open={this.state.loading}>
+        			<CircularProgress color="inherit" />
+				</Backdrop>
+			);
+		}
+		return (
+			<Box m={1}>
+				<Card>
+					<CardContent className={classes.cardContent}>
+						<Table>
+							<TableHead>
+								<TableRow>
+									<TableCell className={classes.tableCell}>
+										<Typography variant="h6">Type</Typography>
+									</TableCell>
+									<TableCell className={classes.tableCell}>
+										<Typography variant="h6">Delivery Number</Typography>
+									</TableCell>
+									<TableCell className={classes.tableCell}>
+										<Typography variant="h6">{
+											this.props.match.params.type === "inbound" ? "From" : "To"	
+										}</Typography>
+									</TableCell>
+									<TableCell className={classes.tableCell}>
+										<Typography variant="h6">Date Due</Typography>
+									</TableCell>
+									<TableCell className={classes.tableCell}>
+										<Typography variant="h6">Actions</Typography>
+									</TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{
+									this.state.deliveries.map(row => (
+										<TableRow key={row.deliveryNumber}>
+											<TableCell>
+												{
+													row.inbound.type === "Store" && row.outbound.type === "Store" && "Transfer"
+												}{
+													row.inbound.type === "Distribution Centre" && row.outbound.type === "Distribution Centre" && "Transfer"
+												}{
+													row.inbound.type === "Store" && row.outbound.type === "Distribution Centre" && "Replenishment"
+												}{
+													row.inbound.type === "Store" && row.outbound.type === "Supplier" && "Replenishment"
+												}{
+													row.inbound.type === "Distribution Centre" && row.outbound.type === "Store" && "Returns"
+												}
+											</TableCell>
+											<TableCell className={classes.tableCell}>{row.deliveryNumber}</TableCell>
+											<TableCell className={classes.tableCell}>{
+												this.props.match.params.type === "inbound"
+												? (row.outbound.name + ' (' + row.outbound.code + ')')
+												: (row.inbound.name + ' (' + row.inbound.code + ')')
+											}</TableCell>
+											<TableCell className={classes.tableCell}>{
+												row.arrivesAt.split('-')[2].split('T')[0] 
+												+ '/' + row.arrivesAt.split('-')[1]
+												+ '/' + row.arrivesAt.split('-')[0]
+											}</TableCell>
+											<TableCell className={classes.tableCell}>
+												<Button variant="contained" color="primary">View Details</Button>
+												{
+													this.props.match.params.type === "outbound" 
+													?
+													<>
+														<Button variant="contained" color="primary" style={{ marginLeft: 5 }}>Send</Button>
+														<Button variant="contained" color="secondary" style={{ marginLeft: 5 }}>Cancel</Button>
+													</>
+													:
+													<Button variant="contained" color="primary" style={{ marginLeft: 5 }}>Receive</Button>
+												}
+											</TableCell>
+										</TableRow>
+									))
+								}
+							</TableBody>
+						</Table>
+					</CardContent>
+				</Card>
+			</Box>
+		)
+	}
+}
+
+const mapStateToProps = state => ({
+	apiToken: state.auth.apiToken,
+	apiUser: state.auth.apiUser
+});
+
+export default connect(mapStateToProps, { showBanner })(withRouter(withStyles(useStyles)(Deliveries)));
