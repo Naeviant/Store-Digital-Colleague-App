@@ -68,7 +68,13 @@ class Deliveries extends React.Component {
             if (this.props.match.params.type === 'outbound') {
 				axios.patch('/delivery/' + deliveryNumber, {
 					status: 'In Transit'
-				}, { headers: { Authorization: this.props.apiToken } }).then((resp) => {
+				}, { headers: { Authorization: this.props.apiToken } }).then(async (resp) => {
+					for (const product of delivery.data.data.products) {
+						await axios.patch('/product/quantity/' + this.props.apiUser.site.code + '/' + product.product.ean, {
+							method: 'decrement',
+							quantity: product.quantity
+						}, { headers: { Authorization: this.props.apiToken } });
+					}
 					this.setState({
 						...this.state,
 						deliveries: this.state.deliveries.filter(x => { return x.deliveryNumber !== deliveryNumber; }),
@@ -81,7 +87,13 @@ class Deliveries extends React.Component {
 			} else {
 				axios.patch('/delivery/' + deliveryNumber, {
 					status: 'Completed'
-				}, { headers: { Authorization: this.props.apiToken } }).then((resp) => {
+				}, { headers: { Authorization: this.props.apiToken } }).then(async (resp) => {
+					for (const product of delivery.data.data.products) {
+						await axios.patch('/product/quantity/' + this.props.apiUser.site.code + '/' + product.product.ean, {
+							method: 'increment',
+							quantity: product.quantity
+						}, { headers: { Authorization: this.props.apiToken } });
+					}
 					this.setState({
 						...this.state,
 						deliveries: this.state.deliveries.filter(x => { return x.deliveryNumber !== deliveryNumber; }),
