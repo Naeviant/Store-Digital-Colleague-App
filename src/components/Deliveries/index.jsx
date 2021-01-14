@@ -62,6 +62,42 @@ class Deliveries extends React.Component {
 		});
 	}
 
+	processDelivery = (deliveryNumber) => {
+		this.setState({ ...this.state, loading: true });
+		axios.get('/delivery/' + deliveryNumber, { headers: { Authorization: this.props.apiToken } }).then((delivery) => {
+            if (this.props.match.params.type === 'outbound') {
+				axios.patch('/delivery/' + deliveryNumber, {
+					status: 'In Transit'
+				}, { headers: { Authorization: this.props.apiToken } }).then((resp) => {
+					this.setState({
+						...this.state,
+						deliveries: this.state.deliveries.filter(x => { return x.deliveryNumber !== deliveryNumber; }),
+						loading: false
+					});
+					this.props.showBanner('Delivery Successfully Processed', 'success');
+				}, (error) => {
+					this.props.showBanner('Cannot Process Delivery: Something Went Wrong', 'error');
+				});
+			} else {
+				axios.patch('/delivery/' + deliveryNumber, {
+					status: 'Completed'
+				}, { headers: { Authorization: this.props.apiToken } }).then((resp) => {
+					this.setState({
+						...this.state,
+						deliveries: this.state.deliveries.filter(x => { return x.deliveryNumber !== deliveryNumber; }),
+						loading: false
+					});
+					this.props.showBanner('Delivery Successfully Processed', 'success');
+				}, (error) => {
+					this.props.showBanner('Cannot Process Delivery: Something Went Wrong', 'error');
+				});
+			}
+		}, (error) => {
+			this.setState({ ...this.state, loading: false });
+			this.props.showBanner('Cannot Process Delivery: Something Went Wrong', 'error');
+		});
+	}
+
 	cancelDelivery = (deliveryNumber) => {
 		this.setState({ ...this.state, loading: true });
 		axios.delete('/delivery/' + deliveryNumber, { headers: { Authorization: this.props.apiToken } }).then((resp) => {
@@ -115,8 +151,8 @@ class Deliveries extends React.Component {
 							<TableBody>
 								{
 									this.state.deliveries.map(row => (
-										((row.status === 'Booked' && this.props.match.params.type === 'inbound') ||
-										(row.status === 'In Transit' && this.props.match.params.type === 'outbound')) &&
+										((row.status === 'Booked' && this.props.match.params.type === 'outbound') ||
+										(row.status === 'In Transit' && this.props.match.params.type === 'inbound')) &&
 										<TableRow key={row.deliveryNumber}>
 											<TableCell>
 												{
@@ -148,11 +184,11 @@ class Deliveries extends React.Component {
 													this.props.match.params.type === 'outbound' 
 													?
 													<>
-														<Button variant='contained' color='primary' style={{ marginLeft: 5 }}>Send</Button>
+														<Button variant='contained' color='primary' onClick={() => { this.processDelivery(row.deliveryNumber) }} style={{ marginLeft: 5 }}>Send</Button>
 														<Button variant='contained' color='secondary' onClick={() => this.cancelDelivery(row.deliveryNumber)} style={{ marginLeft: 5 }}>Cancel</Button>
 													</>
 													:
-													<Button variant='contained' color='primary' style={{ marginLeft: 5 }}>Receive</Button>
+													<Button variant='contained' color='primary' onClick={() => { this.processDelivery(row.deliveryNumber) }} style={{ marginLeft: 5 }}>Receive</Button>
 												}
 											</TableCell>
 										</TableRow>
