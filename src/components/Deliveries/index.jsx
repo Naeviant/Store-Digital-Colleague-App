@@ -126,7 +126,7 @@ class Deliveries extends React.Component {
 												+ '/' + row.arrivesAt.split('-')[0]
 											}</TableCell>
 											<TableCell className={classes.tableCell}>
-												<Button variant="contained" color="primary">View Details</Button>
+												<Button component={Link} to={'/deliveries/' + this.props.match.params.type + '/' + row.deliveryNumber} variant="contained" color="primary">View Details</Button>
 												{
 													this.props.match.params.type === "outbound" 
 													?
