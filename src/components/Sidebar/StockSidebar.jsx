@@ -64,7 +64,7 @@ class StockSidebar extends React.Component {
 				        <ListItemLink component={Link} to="/deliveries/outbound" href="#">
 				        	<ListItemText primary="Outbound Stock" />
 				        </ListItemLink>
-				        <ListItemLink href="#">
+				        <ListItemLink component={Link} to="/stock/correct" href="#">
 				        	<ListItemText primary="Correct Stock Count" />
 				        </ListItemLink>
 				        <ListItemLink href="#">

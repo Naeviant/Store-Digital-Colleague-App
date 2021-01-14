@@ -9,6 +9,7 @@ import Modules from './components/Modules';
 import ModuleInfo from './components/Modules/ModuleInfo';
 import Deliveries from './components/Deliveries';
 import DeliveryProducts from './components/Deliveries/DeliveryProducts';
+import Stock from './components/Stock';
 import Alert from '@material-ui/lab/Alert';
 import Collapse from '@material-ui/core/Collapse';
 
@@ -58,6 +59,9 @@ class App extends React.Component {
 										</Route>
 										<Route exact path="/deliveries/:type/:delivery">
 											<DeliveryProducts />
+										</Route>
+										<Route exact path="/stock/correct">
+											<Stock />
 										</Route>
 			                		</Switch>
 				                </main>
