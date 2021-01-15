@@ -8,6 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import SearchIcon from '@material-ui/icons/Search';
 import Card from '@material-ui/core/Card';
@@ -79,8 +80,22 @@ class Stock extends React.Component {
 
     quantityUpdate = (e) => {
         const counts = this.state.counts;
-        counts[e.target.dataset.index] = Number(e.target.value);
-        this.setState({ ...this.state, counts: counts });
+        if (!isNaN(Number(e.target.value))) {
+            counts[e.target.dataset.index] = Number(e.target.value);
+            this.setState({ ...this.state, counts: counts });
+        }
+    }
+
+    submit = () => {
+        const count = this.state.counts.reduce((a, b) => { return a + b }, 0);
+        axios.patch('/product/quantity/' + this.props.apiUser.site.code + '/' + this.state.ean, {
+            method: 'set',
+            quantity: count
+        }, { headers: { Authorization: this.props.apiToken } }).then((resp) => {
+            this.props.showBanner('Product Quantity Successfully Updated', 'success');
+        }, (error) => {
+            this.props.showBanner('Something Went Wrong', 'error');
+        });
     }
 
 	render() {
@@ -137,6 +152,13 @@ class Stock extends React.Component {
                                                 </TableRow>
                                             ))
                                         }
+                                        <TableRow>
+                                            <TableCell></TableCell>
+                                            <TableCell></TableCell>
+                                            <TableCell>
+                                                <Button variant="contained" color="primary" onClick={this.submit}>Submit</Button>
+                                            </TableCell>
+                                        </TableRow>
                                     </TableBody>
                                 </Table>
                             </CardContent>
