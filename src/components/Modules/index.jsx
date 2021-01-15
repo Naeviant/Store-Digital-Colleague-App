@@ -1,24 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import TabPanel from '../common/TabPanel';
 import ModuleList from './ModuleList';
 import AppBar from "@material-ui/core/AppBar";
 import Box from '@material-ui/core/Box';
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
-
-function TabPanel(props) {
-	const { children, value, index, ...other } = props;
-
-   return (
-	  <div
-		  hidden={value !== index}
-		  {...other}
-	  >
-		  { value === index && <Box p={1}>{children}</Box> }
-	  </div>
-	);
-}
 
 class Modules extends React.Component {
 	constructor(props) {

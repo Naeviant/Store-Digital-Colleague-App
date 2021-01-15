@@ -1,22 +1,10 @@
 import React from 'react';
+import TabPanel from '../common/TabPanel';
 import AppBar from "@material-ui/core/AppBar";
 import Box from '@material-ui/core/Box';
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import Typography from "@material-ui/core/Typography";
-
-function TabPanel(props) {
-  	const { children, value, index, ...other } = props;
-
- 	return (
-    	<div
-    		hidden={value !== index}
-    		{...other}
-    	>
-    		{ value === index && <Box p={3}>{children}</Box> }
-    	</div>
-  	);
-}
 
 class ProductButtons extends React.Component {
 	constructor(props) {
