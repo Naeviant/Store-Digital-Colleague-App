@@ -2,17 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import Loading from '../common/Loading';
-import CardWrapper from '../common/CardWrapper';
-import Typography from '@material-ui/core/Typography';
 import ModuleHeader from './ModuleHeader';
 import ModuleLocation from './ModuleLocation';
 import ModuleProducts from './ModuleProducts';
-
-const useStyles = theme => ({
-
-});
+import Loading from '../common/Loading';
+import CardWrapper from '../common/CardWrapper';
+import Typography from '@material-ui/core/Typography';
 
 class ModuleInfo extends React.Component {
 	constructor(props) {
@@ -50,4 +45,4 @@ const mapStateToProps = state => ({
 	apiUser: state.auth.apiUser,
 });
 
-export default connect(mapStateToProps, null)(withRouter(withStyles(useStyles)(ModuleInfo)));
+export default connect(mapStateToProps, null)(withRouter(ModuleInfo));

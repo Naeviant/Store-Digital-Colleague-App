@@ -1,8 +1,8 @@
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
 import axios from 'axios';
-import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 import { showBanner } from '../../actions/bannerActions';
 import Loading from '../common/Loading';
 import CardWrapper from '../common/CardWrapper';
@@ -194,8 +194,7 @@ class Deliveries extends React.Component {
 
 const mapStateToProps = state => ({
 	apiToken: state.auth.apiToken,
-	apiUser: state.auth.apiUser,
-	banner: state.banner.banner
+	apiUser: state.auth.apiUser
 });
 
 export default connect(mapStateToProps, { showBanner })(withRouter(withStyles(useStyles)(Deliveries)));

@@ -1,5 +1,4 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import LocationSearch from './LocationSearch';
 import LocationNavigation from './LocationNavigation';
 import LocationAislesList from './LocationAislesList';
@@ -7,10 +6,6 @@ import LocationBaysList from './LocationBaysList';
 import LocationTypesList from './LocationTypesList';
 import LocationAssignmentsList from './LocationAssignmentsList';
 import LocationModulesList from './LocationModulesList';
-
-const useStyles = theme => ({
-
-});
 
 class Locations extends React.Component {
 	render() {
@@ -38,4 +33,4 @@ class Locations extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(Locations);
+export default Locations;

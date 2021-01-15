@@ -1,15 +1,10 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 import axios from 'axios';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 import { showBanner } from '../../actions/bannerActions';
 import Loading from '../common/Loading';
 import ModuleList from '../Modules/ModuleList';
-
-const useStyles = theme => ({
-
-});
 
 class LocationAssignmentsList extends React.Component {
 	constructor(props) {
@@ -42,4 +37,4 @@ const mapStateToProps = state => ({
 	apiUser: state.auth.apiUser
 });
 
-export default connect(mapStateToProps, { showBanner })(withRouter(withStyles(useStyles)(LocationAssignmentsList)));
+export default connect(mapStateToProps, { showBanner })(withRouter(LocationAssignmentsList));

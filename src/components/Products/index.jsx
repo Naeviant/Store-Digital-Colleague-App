@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 import { showBanner } from '../../actions/bannerActions';
 import ProductSearch from './ProductSearch';
 import ProductHeader from './ProductHeader';
@@ -9,10 +8,6 @@ import ProductQuantity from './ProductQuantity';
 import ProductLocations from './ProductLocations';
 import ProductInfo from './ProductInfo';
 import ProductButtons from './ProductButtons';
-
-const useStyles = theme => ({
-
-});
 
 class Products extends React.Component {
 	constructor(props) {
@@ -78,4 +73,4 @@ const mapStateToProps = state => ({
 	apiUser: state.auth.apiUser
 });
 
-export default connect(mapStateToProps, { showBanner })(withStyles(useStyles)(Products));
+export default connect(mapStateToProps, { showBanner })(Products);

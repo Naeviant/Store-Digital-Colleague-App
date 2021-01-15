@@ -1,16 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { showBanner } from '../../actions/bannerActions';
 import CardWrapper from '../common/CardWrapper';
-import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
-
-const useStyles = theme => ({
-
-});
+import InputBase from '@material-ui/core/InputBase';
 
 class ModuleLocation extends React.Component {
 	constructor(props) {
@@ -103,4 +98,4 @@ const mapStateToProps = state => ({
 	apiUser: state.auth.apiUser,
 });
 
-export default connect(mapStateToProps, { showBanner })(withRouter(withStyles(useStyles)(ModuleLocation)));
+export default connect(mapStateToProps, { showBanner })(withRouter(ModuleLocation));

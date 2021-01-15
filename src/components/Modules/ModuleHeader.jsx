@@ -1,14 +1,8 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
 import CardWrapper from '../common/CardWrapper';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-
-const useStyles = theme => ({
-	
-});
 
 class ModuleHeader extends React.Component {
 	render() {
@@ -42,4 +36,4 @@ class ModuleHeader extends React.Component {
 	}
 }
 
-export default withRouter(withStyles(useStyles)(ModuleHeader));
+export default ModuleHeader;

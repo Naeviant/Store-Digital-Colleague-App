@@ -1,21 +1,16 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 import axios from 'axios';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 import { showBanner } from '../../actions/bannerActions';
-import CreateAssignment from './CreateAssignment';
-import DeleteAssignment from './DeleteAssignment';
 import Loading from '../common/Loading';
 import CardWrapper from '../common/CardWrapper';
-import List from '@material-ui/core/List';
+import CreateAssignment from './CreateAssignment';
+import DeleteAssignment from './DeleteAssignment';
 import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
-const useStyles = theme => ({
-
-});
 
 class LocationAssignmentsList extends React.Component {
 	constructor(props) {
@@ -76,4 +71,4 @@ const mapStateToProps = state => ({
 	apiUser: state.auth.apiUser
 });
 
-export default connect(mapStateToProps, { showBanner })(withRouter(withStyles(useStyles)(LocationAssignmentsList)));
+export default connect(mapStateToProps, { showBanner })(withRouter(LocationAssignmentsList));

@@ -1,18 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { showBanner } from '../../actions/bannerActions';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
-import Paper from '@material-ui/core/Paper';
 import CheckIcon from '@material-ui/icons/Check';
-
-const useStyles = theme => ({
-
-});
+import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
+import Paper from '@material-ui/core/Paper';
 
 class CreateAssignment extends React.Component {
 	constructor(props) {
@@ -80,4 +75,4 @@ const mapStateToProps = state => ({
 	apiUser: state.auth.apiUser
 });
 
-export default connect(mapStateToProps, { showBanner })(withRouter(withStyles(useStyles)(CreateAssignment)));
+export default connect(mapStateToProps, { showBanner })(withRouter(CreateAssignment));

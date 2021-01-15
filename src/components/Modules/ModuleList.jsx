@@ -1,19 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
 import CardWrapper from '../common/CardWrapper';
+import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 
 function ListItemLink(props) {
 	return <ListItem button component="a" {...props} />;
 }
-
-const useStyles = theme => ({
-
-});
 
 class Modules extends React.Component {
 	render() {
@@ -48,4 +43,4 @@ class Modules extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(Modules);
+export default Modules;

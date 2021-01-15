@@ -1,15 +1,9 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
 import Paper from '@material-ui/core/Paper';
 import SearchIcon from '@material-ui/icons/Search';
-
-const useStyles = theme => ({
-
-});
 
 class LocationSearch extends React.Component {
 	constructor(props) {
@@ -74,4 +68,4 @@ class LocationSearch extends React.Component {
 	}
 }
 
-export default withRouter(withStyles(useStyles)(LocationSearch));
+export default LocationSearch;

@@ -1,12 +1,7 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import CardWrapper from '../common/CardWrapper';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-
-const useStyles = theme => ({
-
-});
 
 class ProductQuantity extends React.Component {
 	render() {
@@ -20,4 +15,4 @@ class ProductQuantity extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(ProductQuantity);
+export default ProductQuantity;

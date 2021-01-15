@@ -1,9 +1,8 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
 import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
+import Box from '@material-ui/core/Box';
 import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
 import Typography from "@material-ui/core/Typography";
 
 function TabPanel(props) {
@@ -18,10 +17,6 @@ function TabPanel(props) {
     	</div>
   	);
 }
-
-const useStyles = theme => ({
-
-});
 
 class ProductButtons extends React.Component {
 	constructor(props) {
@@ -61,4 +56,4 @@ class ProductButtons extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(ProductButtons);
+export default ProductButtons;

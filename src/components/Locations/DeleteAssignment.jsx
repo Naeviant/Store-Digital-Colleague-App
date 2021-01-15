@@ -1,15 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { showBanner } from '../../actions/bannerActions';
-import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-
-const useStyles = theme => ({
-
-});
+import IconButton from '@material-ui/core/IconButton';
 
 class DeleteAssignment extends React.Component {
 	onClick = () => {
@@ -38,4 +33,4 @@ const mapStateToProps = state => ({
 	apiUser: state.auth.apiUser
 });
 
-export default connect(mapStateToProps, { showBanner })(withRouter(withStyles(useStyles)(DeleteAssignment)));
+export default connect(mapStateToProps, { showBanner })(withRouter(DeleteAssignment));

@@ -1,12 +1,7 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-
-const useStyles = theme => ({
-
-});
 
 class ProductButtons extends React.Component {
 	render() {
@@ -28,4 +23,4 @@ class ProductButtons extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(ProductButtons);
+export default ProductButtons;

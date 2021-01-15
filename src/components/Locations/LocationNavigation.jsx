@@ -1,15 +1,10 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 import { showBanner } from '../../actions/bannerActions';
 import CardWrapper from '../common/CardWrapper';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
-
-const useStyles = theme => ({
-
-});
 
 class LocationNavigation extends React.Component {
 	constructor(props) {
@@ -55,4 +50,4 @@ const mapStateToProps = state => ({
 	apiUser: state.auth.apiUser
 });
 
-export default connect(mapStateToProps, { showBanner })(withRouter(withStyles(useStyles)(LocationNavigation)));
+export default connect(mapStateToProps, { showBanner })(withRouter(LocationNavigation));

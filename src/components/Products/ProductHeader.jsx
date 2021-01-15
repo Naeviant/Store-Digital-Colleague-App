@@ -1,15 +1,10 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import CardWrapper from '../common/CardWrapper';
 import ProductStatus from './ProductStatus';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import StarIcon from '@material-ui/icons/Star';
 import Typography from '@material-ui/core/Typography';
-
-const useStyles = theme => ({
-
-});
 
 class ProductHeader extends React.Component {
 	render() {
@@ -35,4 +30,4 @@ class ProductHeader extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(ProductHeader);
+export default ProductHeader;

@@ -1,22 +1,22 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authActions';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import GradeIcon from '@material-ui/icons/Grade';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import SettingsIcon from '@material-ui/icons/Settings';
-import PersonIcon from '@material-ui/icons/Person';
 import LocationsSidebar from './LocationsSidebar';
 import StockSidebar from './StockSidebar';
 import CollectionsSidebar from './CollectionsSidebar';
 import SettingsSidebar from './SettingsSidebar';
+import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Drawer from '@material-ui/core/Drawer';
+import GradeIcon from '@material-ui/icons/Grade';
+import Grid from '@material-ui/core/Grid';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import PersonIcon from '@material-ui/icons/Person';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const drawerWidth = 120;
 

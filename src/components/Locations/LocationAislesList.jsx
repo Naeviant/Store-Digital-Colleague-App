@@ -1,23 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 import { showBanner } from '../../actions/bannerActions';
 import Loading from '../common/Loading';
 import CardWrapper from '../common/CardWrapper';
-import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 function ListItemLink(props) {
 	return <ListItem button component="a" {...props} />;
 }
-
-const useStyles = theme => ({
-
-});
 
 class LocationAislesList extends React.Component {
 	constructor(props) {
@@ -70,4 +65,4 @@ const mapStateToProps = state => ({
 	apiUser: state.auth.apiUser
 });
 
-export default connect(mapStateToProps, { showBanner })(withStyles(useStyles)(LocationAislesList));
+export default connect(mapStateToProps, { showBanner })(LocationAislesList);

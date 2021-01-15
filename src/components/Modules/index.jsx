@@ -1,12 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import ModuleList from './ModuleList';
+import AppBar from "@material-ui/core/AppBar";
+import Box from '@material-ui/core/Box';
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -20,10 +19,6 @@ function TabPanel(props) {
 	  </div>
 	);
 }
-
-const useStyles = theme => ({
-
-});
 
 class Modules extends React.Component {
 	constructor(props) {
@@ -92,4 +87,4 @@ const mapStateToProps = state => ({
 	apiUser: state.auth.apiUser,
 });
 
-export default connect(mapStateToProps, null)(withStyles(useStyles)(Modules));
+export default connect(mapStateToProps, null)(Modules);
