@@ -7,21 +7,14 @@ import { showBanner } from '../../actions/bannerActions';
 import CreateAssignment from './CreateAssignment';
 import DeleteAssignment from './DeleteAssignment';
 import Loading from '../common/Loading';
+import CardWrapper from '../common/CardWrapper';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 
 const useStyles = theme => ({
-	cardContent: {
-        "&:last-child": {
-            paddingTop: 8,
-            paddingBottom: 8
-        }
-    },
+
 });
 
 class LocationAssignmentsList extends React.Component {
@@ -47,37 +40,32 @@ class LocationAssignmentsList extends React.Component {
 	}
 	
 	render() {
-		const { classes } = this.props;
 		if (this.state.loading) return ( <Loading /> );
 		return (
 			<>
 				<CreateAssignment update={this.populateList} />
-				<Box m={1}>
-					<Card>
-						<CardContent className={classes.cardContent}>
-							<List component='nav'>
-								{
-									this.state.assignments.length === 0
-									?
-									<ListItemText primary='No Products Found' />
-									:
+				<CardWrapper>
+					<List component='nav'>
+						{
+							this.state.assignments.length === 0
+							?
+							<ListItemText primary='No Products Found' />
+							:
+							<Divider />
+						}
+						{
+							this.state.assignments.map(assignment => (
+								<React.Fragment key={assignment.product.ean + '-' + assignment.bay.aisle.aisle + '-' + assignment.bay.bay + '-' + assignment.type}>
+									<ListItem>
+										<ListItemText primary={assignment.product.name} secondary={assignment.product.ean} />
+										<DeleteAssignment update={this.populateList} ean={assignment.product.ean} />
+									</ListItem>
 									<Divider />
-								}
-								{
-									this.state.assignments.map(assignment => (
-										<React.Fragment key={assignment.product.ean + '-' + assignment.bay.aisle.aisle + '-' + assignment.bay.bay + '-' + assignment.type}>
-											<ListItem>
-												<ListItemText primary={assignment.product.name} secondary={assignment.product.ean} />
-												<DeleteAssignment update={this.populateList} ean={assignment.product.ean} />
-											</ListItem>
-											<Divider />
-										</React.Fragment>
-									))
-								}
-							</List>	
-						</CardContent>
-					</Card>
-				</Box>
+								</React.Fragment>
+							))
+						}
+					</List>	
+				</CardWrapper>
 			</>
 		)
 	}

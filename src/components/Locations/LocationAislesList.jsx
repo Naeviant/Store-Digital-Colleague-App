@@ -5,25 +5,18 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { showBanner } from '../../actions/bannerActions';
 import Loading from '../common/Loading';
+import CardWrapper from '../common/CardWrapper';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 
 function ListItemLink(props) {
 	return <ListItem button component="a" {...props} />;
 }
 
 const useStyles = theme => ({
-	cardContent: {
-        "&:last-child": {
-            paddingTop: 8,
-            paddingBottom: 8
-        }
-    },
+
 });
 
 class LocationAislesList extends React.Component {
@@ -45,34 +38,29 @@ class LocationAislesList extends React.Component {
 	}
 	
 	render() {
-		const { classes } = this.props;
 		if (this.state.loading) return ( <Loading /> );
 		return (
-			<Box m={1}>
-				<Card>
-					<CardContent className={classes.cardContent}>
-						<List component="nav">
-							{
-								this.state.aisles.length === 0
-								?
-								<ListItemText primary='No Aisles Found' />
-								:
+			<CardWrapper>
+				<List component="nav">
+					{
+						this.state.aisles.length === 0
+						?
+						<ListItemText primary='No Aisles Found' />
+						:
+						<Divider />
+					}
+					{
+						this.state.aisles.map(aisle => (
+							<React.Fragment key={aisle.aisle}>
+								<ListItemLink component={Link} to={"/locations/" + aisle.aisle}>
+									<ListItemText primary={aisle.aisle + " - " + aisle.name} />
+								</ListItemLink>
 								<Divider />
-							}
-							{
-								this.state.aisles.map(aisle => (
-									<React.Fragment key={aisle.aisle}>
-										<ListItemLink component={Link} to={"/locations/" + aisle.aisle}>
-											<ListItemText primary={aisle.aisle + " - " + aisle.name} />
-										</ListItemLink>
-										<Divider />
-									</React.Fragment>
-								))
-							}
-						</List>	
-					</CardContent>
-				</Card>
-			</Box>
+							</React.Fragment>
+						))
+					}
+				</List>
+			</CardWrapper>
 		)
 	}
 }

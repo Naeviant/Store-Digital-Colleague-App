@@ -4,14 +4,13 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { showBanner } from '../../actions/bannerActions';
 import Loading from '../common/Loading';
+import CardWrapper from '../common/CardWrapper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import SearchIcon from '@material-ui/icons/Search';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -19,13 +18,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
 
 const useStyles = theme => ({
-	cardContent: {
-        '&:last-child': {
-            paddingTop: 8,
-            paddingBottom: 8
-        }
-	},
-	tableCell: {
+    tableCell: {
 		padding: 8
 	},
 });
@@ -118,41 +111,37 @@ class Stock extends React.Component {
                 </Box>
                 {
                     this.state.assignments.length > 0 &&
-                    <Box p={1}>
-                        <Card>
-                            <CardContent className={classes.cardContent}>
-                                <Divider />
-                                <Table>
-                                    <TableBody>
-                                        {
-                                            this.state.assignments.map((row, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell className={classes.tableCell}>{ row.bay.aisle.aisle + '-' + row.bay.bay }</TableCell>
-                                                    <TableCell>{row.type}</TableCell>
-                                                    <TableCell>
-                                                        <InputBase
-                                                            inputProps={{ 'data-index': index }}
-                                                            placeholder="Quantity"
-                                                            style={{ width: '100%' }}
-                                                            onChange={this.quantityUpdate}
-                                                            value={this.state.counts[index]}
-                                                        />
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))
-                                        }
-                                        <TableRow>
-                                            <TableCell></TableCell>
-                                            <TableCell></TableCell>
+                    <CardWrapper>
+                        <Divider />
+                        <Table>
+                            <TableBody>
+                                {
+                                    this.state.assignments.map((row, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell className={classes.tableCell}>{ row.bay.aisle.aisle + '-' + row.bay.bay }</TableCell>
+                                            <TableCell>{row.type}</TableCell>
                                             <TableCell>
-                                                <Button variant="contained" color="primary" onClick={this.submit}>Submit</Button>
+                                                <InputBase
+                                                    inputProps={{ 'data-index': index }}
+                                                    placeholder="Quantity"
+                                                    style={{ width: '100%' }}
+                                                    onChange={this.quantityUpdate}
+                                                    value={this.state.counts[index]}
+                                                />
                                             </TableCell>
                                         </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </Box>
+                                    ))
+                                }
+                                <TableRow>
+                                    <TableCell></TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell>
+                                        <Button variant="contained" color="primary" onClick={this.submit}>Submit</Button>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </CardWrapper>
                 }
             </>
 		)

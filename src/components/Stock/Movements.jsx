@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { showBanner } from '../../actions/bannerActions';
 import Loading from '../common/Loading';
+import CardWrapper from '../common/CardWrapper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
@@ -11,8 +12,6 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import SearchIcon from '@material-ui/icons/Search';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -137,73 +136,65 @@ class Movements extends React.Component {
                 </Box>
                 {
                     this.state.product.ean && 
-                    <Box p={1}>
-                        <Card>
-                            <CardContent className={classes.cardContent}>
-                                <InputBase
-                                    placeholder="Quantity"
-                                    style={{ width: 'calc(50% - 96px)' }}
-                                    onChange={this.quantityChange}
-                                    value={this.state.quantity}
-                                />
-                                <Select
-                                    style={{ width: 'calc(50% - 96px)' }}
-                                    onChange={this.typeChange}
-                                    value={this.state.type}
-                                >
-                                    <MenuItem value="Known Theft">Known Theft</MenuItem>
-                                    <MenuItem value="Store Own Use">Store Own Use</MenuItem>
-                                    <MenuItem value="Sample">Sample</MenuItem>
-                                    <MenuItem value="Damage">Damage</MenuItem>
-                                    <MenuItem value="Expired">Expired</MenuItem>
-                                </Select>
-                                <Button variant="contained" color="primary" onClick={() => { this.add('decrement') }} style={{ marginLeft: 20 }}>Add</Button>
-                                <Button variant="contained" color="secondary" onClick={() => { this.add('increment') }} style={{ marginLeft: 5 }}>Reverse</Button>
-                            </CardContent>
-                        </Card>
-                    </Box>
+                    <CardWrapper>
+                        <InputBase
+                            placeholder="Quantity"
+                            style={{ width: 'calc(50% - 96px)' }}
+                            onChange={this.quantityChange}
+                            value={this.state.quantity}
+                        />
+                        <Select
+                            style={{ width: 'calc(50% - 96px)' }}
+                            onChange={this.typeChange}
+                            value={this.state.type}
+                        >
+                            <MenuItem value="Known Theft">Known Theft</MenuItem>
+                            <MenuItem value="Store Own Use">Store Own Use</MenuItem>
+                            <MenuItem value="Sample">Sample</MenuItem>
+                            <MenuItem value="Damage">Damage</MenuItem>
+                            <MenuItem value="Expired">Expired</MenuItem>
+                        </Select>
+                        <Button variant="contained" color="primary" onClick={() => { this.add('decrement') }} style={{ marginLeft: 20 }}>Add</Button>
+                        <Button variant="contained" color="secondary" onClick={() => { this.add('increment') }} style={{ marginLeft: 5 }}>Reverse</Button>
+                    </CardWrapper>
                 }
                 {
                     this.state.movements.length > 0 &&
-                    <Box p={1}>
-                        <Card>
-                            <CardContent className={classes.cardContent}>
-                                <Divider />
-                                <Table>
-                                    <TableBody>
-                                        {
-                                            this.state.movements.map((row, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell className="tableCell">
-                                                        <ListItemText primary={row.product.name} secondary={row.product.ean} />
-                                                    </TableCell>
-                                                    <TableCell className="tableCell">{row.quantity}</TableCell>
-                                                    <TableCell className="tableCell">{row.type}{row.action === 'increment' && ' (Reversal)'}</TableCell>
-                                                    <TableCell className="tableCell">
-                                                        <IconButton 
-                                                            color="primary"
-                                                            onClick={() => { this.delete(index) }}
+                    <CardWrapper>
+                        <Divider />
+                        <Table>
+                            <TableBody>
+                                {
+                                    this.state.movements.map((row, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell className={classes.tableCell}>
+                                                <ListItemText primary={row.product.name} secondary={row.product.ean} />
+                                            </TableCell>
+                                            <TableCell className={classes.tableCell}>{row.quantity}</TableCell>
+                                            <TableCell className={classes.tableCell}>{row.type}{row.action === 'increment' && ' (Reversal)'}</TableCell>
+                                            <TableCell className={classes.tableCell}>
+                                                <IconButton 
+                                                    color="primary"
+                                                    onClick={() => { this.delete(index) }}
 
-                                                        >
-                                                            <DeleteForeverIcon />
-                                                        </IconButton>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))
-                                        }
-                                        <TableRow>
-                                            <TableCell></TableCell>
-                                            <TableCell></TableCell>
-                                            <TableCell></TableCell>
-                                            <TableCell>
-                                                <Button variant="contained" color="primary" onClick={this.submit}>Submit</Button>
+                                                >
+                                                    <DeleteForeverIcon />
+                                                </IconButton>
                                             </TableCell>
                                         </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </Box>
+                                    ))
+                                }
+                                <TableRow>
+                                    <TableCell></TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell>
+                                        <Button variant="contained" color="primary" onClick={this.submit}>Submit</Button>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </CardWrapper>
                 }
             </>
 		)

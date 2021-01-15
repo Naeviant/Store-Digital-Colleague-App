@@ -4,9 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import Loading from '../common/Loading';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import CardWrapper from '../common/CardWrapper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -16,12 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText'
 
 const useStyles = theme => ({
-    cardContent: {
-        '&:last-child': {
-            paddingTop: 8,
-            paddingBottom: 8
-        }
-	},
 	tableCell: {
 		padding: 8
 	},
@@ -51,45 +43,37 @@ class DeliveryProducts extends React.Component {
         if (this.state.loading) return ( <Loading /> );
 		return (
             <>
-                <Box m={1}>
-					<Card>
-						<CardContent className={classes.cardContent}>
-							<Link to={'/deliveries/' + this.props.match.params.type}>
-								<Typography color='textPrimary'>Go Back</Typography>
-							</Link>
-						</CardContent>
-					</Card>
-				</Box>
-                <Box m={1}>
-                    <Card>
-                        <CardContent className={classes.cardContent}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
+                <CardWrapper>
+                    <Link to={'/deliveries/' + this.props.match.params.type}>
+                        <Typography color='textPrimary'>Go Back</Typography>
+                    </Link>
+				</CardWrapper>
+                <CardWrapper>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell className={classes.tableCell}>
+                                    <Typography variant='h6'>Product</Typography>
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                    <Typography variant='h6'>Quantity</Typography>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                this.state.products.map(row => (
+                                    <TableRow key={row.product.ean}>
                                         <TableCell className={classes.tableCell}>
-                                            <Typography variant='h6'>Product</Typography>
+                                            <ListItemText primary={row.product.name} secondary={row.product.ean} />
                                         </TableCell>
-                                        <TableCell className={classes.tableCell}>
-                                            <Typography variant='h6'>Quantity</Typography>
-                                        </TableCell>
+                                        <TableCell className={classes.tableCell}>{row.quantity}</TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        this.state.products.map(row => (
-                                            <TableRow key={row.product.ean}>
-                                                <TableCell className={classes.tableCell}>
-                                                    <ListItemText primary={row.product.name} secondary={row.product.ean} />
-                                                </TableCell>
-                                                <TableCell className={classes.tableCell}>{row.quantity}</TableCell>
-                                            </TableRow>
-                                        ))
-                                    }
-                                </TableBody>
-                            </Table>
-                        </CardContent>
-                    </Card>
-                </Box>
+                                ))
+                            }
+                        </TableBody>
+                    </Table>
+                </CardWrapper>
             </>
 		);
 	}

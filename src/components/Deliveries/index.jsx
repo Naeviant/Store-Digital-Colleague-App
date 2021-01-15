@@ -5,10 +5,8 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { showBanner } from '../../actions/bannerActions';
 import Loading from '../common/Loading';
-import Box from '@material-ui/core/Box';
+import CardWrapper from '../common/CardWrapper';
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -17,12 +15,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = theme => ({
-	cardContent: {
-        '&:last-child': {
-            paddingTop: 8,
-            paddingBottom: 8
-        }
-	},
 	tableCell: {
 		padding: 8
 	},
@@ -124,82 +116,78 @@ class Deliveries extends React.Component {
 		const { classes } = this.props;
 		if (this.state.loading) return ( <Loading /> );
 		return (
-			<Box m={1}>
-				<Card>
-					<CardContent className={classes.cardContent}>
-						<Table>
-							<TableHead>
-								<TableRow>
-									<TableCell className={classes.tableCell}>
-										<Typography variant='h6'>Type</Typography>
+			<CardWrapper>
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell className={classes.tableCell}>
+								<Typography variant='h6'>Type</Typography>
+							</TableCell>
+							<TableCell className={classes.tableCell}>
+								<Typography variant='h6'>Delivery Number</Typography>
+							</TableCell>
+							<TableCell className={classes.tableCell}>
+								<Typography variant='h6'>{
+									this.props.match.params.type === 'inbound' ? 'From' : 'To'	
+								}</Typography>
+							</TableCell>
+							<TableCell className={classes.tableCell}>
+								<Typography variant='h6'>Date Due</Typography>
+							</TableCell>
+							<TableCell className={classes.tableCell}>
+								<Typography variant='h6'>Actions</Typography>
+							</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{
+							this.state.deliveries.map(row => (
+								((row.status === 'Booked' && this.props.match.params.type === 'outbound') ||
+								(row.status === 'In Transit' && this.props.match.params.type === 'inbound')) &&
+								<TableRow key={row.deliveryNumber}>
+									<TableCell>
+										{
+											row.inbound.type === 'Store' && row.outbound.type === 'Store' && 'Transfer'
+										}{
+											row.inbound.type === 'Distribution Centre' && row.outbound.type === 'Distribution Centre' && 'Transfer'
+										}{
+											row.inbound.type === 'Store' && row.outbound.type === 'Distribution Centre' && 'Replenishment'
+										}{
+											row.inbound.type === 'Store' && row.outbound.type === 'Supplier' && 'Replenishment'
+										}{
+											row.inbound.type === 'Distribution Centre' && row.outbound.type === 'Store' && 'Returns'
+										}
 									</TableCell>
+									<TableCell className={classes.tableCell}>{row.deliveryNumber}</TableCell>
+									<TableCell className={classes.tableCell}>{
+										this.props.match.params.type === 'inbound'
+										? (row.outbound.name + ' (' + row.outbound.code + ')')
+										: (row.inbound.name + ' (' + row.inbound.code + ')')
+									}</TableCell>
+									<TableCell className={classes.tableCell}>{
+										row.arrivesAt.split('-')[2].split('T')[0] 
+										+ '/' + row.arrivesAt.split('-')[1]
+										+ '/' + row.arrivesAt.split('-')[0]
+									}</TableCell>
 									<TableCell className={classes.tableCell}>
-										<Typography variant='h6'>Delivery Number</Typography>
-									</TableCell>
-									<TableCell className={classes.tableCell}>
-										<Typography variant='h6'>{
-											this.props.match.params.type === 'inbound' ? 'From' : 'To'	
-										}</Typography>
-									</TableCell>
-									<TableCell className={classes.tableCell}>
-										<Typography variant='h6'>Date Due</Typography>
-									</TableCell>
-									<TableCell className={classes.tableCell}>
-										<Typography variant='h6'>Actions</Typography>
+										<Button component={Link} to={'/deliveries/' + this.props.match.params.type + '/' + row.deliveryNumber} variant='contained' color='primary'>View Details</Button>
+										{
+											this.props.match.params.type === 'outbound' 
+											?
+											<>
+												<Button variant='contained' color='primary' onClick={() => { this.processDelivery(row.deliveryNumber) }} style={{ marginLeft: 5 }}>Send</Button>
+												<Button variant='contained' color='secondary' onClick={() => this.cancelDelivery(row.deliveryNumber)} style={{ marginLeft: 5 }}>Cancel</Button>
+											</>
+											:
+											<Button variant='contained' color='primary' onClick={() => { this.processDelivery(row.deliveryNumber) }} style={{ marginLeft: 5 }}>Receive</Button>
+										}
 									</TableCell>
 								</TableRow>
-							</TableHead>
-							<TableBody>
-								{
-									this.state.deliveries.map(row => (
-										((row.status === 'Booked' && this.props.match.params.type === 'outbound') ||
-										(row.status === 'In Transit' && this.props.match.params.type === 'inbound')) &&
-										<TableRow key={row.deliveryNumber}>
-											<TableCell>
-												{
-													row.inbound.type === 'Store' && row.outbound.type === 'Store' && 'Transfer'
-												}{
-													row.inbound.type === 'Distribution Centre' && row.outbound.type === 'Distribution Centre' && 'Transfer'
-												}{
-													row.inbound.type === 'Store' && row.outbound.type === 'Distribution Centre' && 'Replenishment'
-												}{
-													row.inbound.type === 'Store' && row.outbound.type === 'Supplier' && 'Replenishment'
-												}{
-													row.inbound.type === 'Distribution Centre' && row.outbound.type === 'Store' && 'Returns'
-												}
-											</TableCell>
-											<TableCell className={classes.tableCell}>{row.deliveryNumber}</TableCell>
-											<TableCell className={classes.tableCell}>{
-												this.props.match.params.type === 'inbound'
-												? (row.outbound.name + ' (' + row.outbound.code + ')')
-												: (row.inbound.name + ' (' + row.inbound.code + ')')
-											}</TableCell>
-											<TableCell className={classes.tableCell}>{
-												row.arrivesAt.split('-')[2].split('T')[0] 
-												+ '/' + row.arrivesAt.split('-')[1]
-												+ '/' + row.arrivesAt.split('-')[0]
-											}</TableCell>
-											<TableCell className={classes.tableCell}>
-												<Button component={Link} to={'/deliveries/' + this.props.match.params.type + '/' + row.deliveryNumber} variant='contained' color='primary'>View Details</Button>
-												{
-													this.props.match.params.type === 'outbound' 
-													?
-													<>
-														<Button variant='contained' color='primary' onClick={() => { this.processDelivery(row.deliveryNumber) }} style={{ marginLeft: 5 }}>Send</Button>
-														<Button variant='contained' color='secondary' onClick={() => this.cancelDelivery(row.deliveryNumber)} style={{ marginLeft: 5 }}>Cancel</Button>
-													</>
-													:
-													<Button variant='contained' color='primary' onClick={() => { this.processDelivery(row.deliveryNumber) }} style={{ marginLeft: 5 }}>Receive</Button>
-												}
-											</TableCell>
-										</TableRow>
-									))
-								}
-							</TableBody>
-						</Table>
-					</CardContent>
-				</Card>
-			</Box>
+							))
+						}
+					</TableBody>
+				</Table>
+			</CardWrapper>
 		)
 	}
 }

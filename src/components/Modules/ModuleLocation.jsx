@@ -4,19 +4,12 @@ import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { showBanner } from '../../actions/bannerActions';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import CardWrapper from '../common/CardWrapper';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 
 const useStyles = theme => ({
-	cardContent: {
-        "&:last-child": {
-            paddingTop: 8,
-            paddingBottom: 8
-        }
-    },
+
 });
 
 class ModuleLocation extends React.Component {
@@ -83,29 +76,24 @@ class ModuleLocation extends React.Component {
 	}
 
 	render() {
-		const { classes } = this.props;
 		return (
-			<Box p={1}>
-				<Card>
-					<CardContent className={classes.cardContent}>
-						<InputBase
-							placeholder="Enter Location"
-							style={{ width: 'calc(100% - 208px)' }}
-							onChange={this.onChange}
-							inputProps={{ onKeyDown: this.onKeypress }}
-							value={this.state.location}
-						/>
-						<Button variant="contained" color="primary" style={{ marginRight: 10 }} onClick={this.assign}>Assign</Button>
-						{
-							this.props.bay
-							?
-							<Button variant="contained" color="secondary" onClick={this.unassign}>Unassign</Button>
-							:
-							<Button variant="contained" color="secondary" disabled>Unassign</Button>
-						}	
-					</CardContent>
-				</Card>
-			</Box>
+			<CardWrapper>
+				<InputBase
+					placeholder="Enter Location"
+					style={{ width: 'calc(100% - 208px)' }}
+					onChange={this.onChange}
+					inputProps={{ onKeyDown: this.onKeypress }}
+					value={this.state.location}
+				/>
+				<Button variant="contained" color="primary" style={{ marginRight: 10 }} onClick={this.assign}>Assign</Button>
+				{
+					this.props.bay
+					?
+					<Button variant="contained" color="secondary" onClick={this.unassign}>Unassign</Button>
+					:
+					<Button variant="contained" color="secondary" disabled>Unassign</Button>
+				}	
+			</CardWrapper>
 		);
 	}
 }
