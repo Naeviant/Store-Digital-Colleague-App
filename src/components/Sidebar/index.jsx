@@ -16,6 +16,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import LocationsSidebar from './LocationsSidebar';
 import StockSidebar from './StockSidebar';
 import CollectionsSidebar from './CollectionsSidebar';
+import SettingsSidebar from './SettingsSidebar';
 
 const drawerWidth = 120;
 
@@ -100,7 +101,7 @@ class Sidebar extends React.Component {
 						</Button>
 					</Box>
 					<Box className={classes.sidebarBottom}>
-						<Button className={classes.sidebarButton} onClick={() => this.closeSubMenu()}>
+						<Button className={classes.sidebarButton} onClick={() => this.openSubMenu('settings')}>
 							<Grid container justify="center">
 							    <SettingsIcon fontSize="large" className={classes.sidebarIcon} /> Settings
 							</Grid>
@@ -128,6 +129,7 @@ class Sidebar extends React.Component {
 				<LocationsSidebar show={this.state.subMenu === 'locations'} close={this.closeSubMenu} />
 				<StockSidebar show={this.state.subMenu === 'stock'} close={this.closeSubMenu} />
 				<CollectionsSidebar show={this.state.subMenu === 'collections'} close={this.closeSubMenu} />
+				<SettingsSidebar show={this.state.subMenu === 'settings'} close={this.closeSubMenu} />
 			</nav>
 		)
 	}
