@@ -1,8 +1,17 @@
 import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
 
-function ListItemLink(props) {
-	return <ListItem button component="a" {...props} />;
+
+function TabPanel(props) {
+	const { children, value, index, ...other } = props;
+
+   return (
+	  <div
+		  hidden={value !== index}
+		  {...other}
+	  >
+		  { value === index && <Box p={1}>{children}</Box> }
+	  </div>
+	);
 }
 
-export default ListItemLink;
+export default TabPanel;
