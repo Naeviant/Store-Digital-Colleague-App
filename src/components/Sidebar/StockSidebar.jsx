@@ -58,16 +58,16 @@ class StockSidebar extends React.Component {
 					}}
 				>
 					<List component="nav" className={classes.list}>
-				    	<ListItemLink component={Link} to="/deliveries/inbound" href="#">
+				    	<ListItemLink component={Link} to="/deliveries/inbound" href="#" onClick={this.props.close}>
 				        	<ListItemText primary="Inbound Stock" />
 				        </ListItemLink>
-				        <ListItemLink component={Link} to="/deliveries/outbound" href="#">
+				        <ListItemLink component={Link} to="/deliveries/outbound" href="#" onClick={this.props.close}>
 				        	<ListItemText primary="Outbound Stock" />
 				        </ListItemLink>
-				        <ListItemLink component={Link} to="/stock/correct" href="#">
+				        <ListItemLink component={Link} to="/stock/correct" href="#" onClick={this.props.close}>
 				        	<ListItemText primary="Correct Stock Count" />
 				        </ListItemLink>
-				        <ListItemLink href="#">
+				        <ListItemLink href="#" onClick={this.props.close}>
 				        	<ListItemText primary="Stock Movements" />
 				        </ListItemLink>
 				      </List>
