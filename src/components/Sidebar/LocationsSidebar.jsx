@@ -2,12 +2,8 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import SubMenu from './SubMenu';
-import ListItem from '@material-ui/core/ListItem';
+import ListItemLink from '../common/ListItemLink';
 import ListItemText from '@material-ui/core/ListItemText';
-
-function ListItemLink(props) {
-	return <ListItem button component="a" {...props} />;
-}
 
 const useStyles = theme => ({
 	listLink: {

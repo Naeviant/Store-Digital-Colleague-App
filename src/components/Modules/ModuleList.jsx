@@ -1,14 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CardWrapper from '../common/CardWrapper';
+import ListItemLink from '../common/ListItemLink';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
-function ListItemLink(props) {
-	return <ListItem button component="a" {...props} />;
-}
 
 class Modules extends React.Component {
 	render() {
