@@ -9,7 +9,7 @@ class ProductLocations extends React.Component {
 		return (
 			<Box p={1}>
 				<Grid container spacing={3}>
-					<ProductSellingLocations sellingAssignments={this.props.sellingAssignments} />
+					<ProductSellingLocations sellingAssignments={this.props.sellingAssignments} modules={this.props.modules} />
 					<ProductNonSellingLocations nonSellingAssignments={this.props.nonSellingAssignments} />
 				</Grid>
 			</Box>

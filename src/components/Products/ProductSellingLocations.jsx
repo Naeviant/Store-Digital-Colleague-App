@@ -27,7 +27,7 @@ class ProductSellingsLocations extends React.Component {
 		return (
 			<Grid item md={7} xs={12}>
 				{
-					this.props.sellingAssignments.length === 0
+					this.props.sellingAssignments.length === 0 && this.props.modules.length === 0
 					?
 					<Paper className={classes.noSellingLocations}>
 						<Box p={3}>
@@ -47,6 +47,17 @@ class ProductSellingsLocations extends React.Component {
 								</TableRow>
 							</TableHead>
 							<TableBody>
+								{
+									this.props.modules.map((row) => (
+										<TableRow key={row.ean + '-' + row.aisle + '-' + row.bay + '-' + row.sequence}>
+											<TableCell>{row.aisle}</TableCell>
+											<TableCell>{row.bay}</TableCell>
+											<TableCell>Module</TableCell>
+											<TableCell>{row.sequence}</TableCell>
+											<TableCell>{row.facings}</TableCell>
+										</TableRow>
+									))
+								}
 								{
 									this.props.sellingAssignments.map((row) => (
 										<TableRow key={row.product.ean + '-' + row.bay.aisle.aisle + '-' + row.bay.bay + '-' + row.type}>

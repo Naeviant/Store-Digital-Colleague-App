@@ -34,9 +34,28 @@ class Products extends React.Component {
 	search = () => {
 		axios.get('/product/quantity/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((product) => {
 			axios.get('/assignment/product/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((assignments) => {
-				const sellingAssignments = assignments.data.data.filter((x) => { return ['Multi-Location', 'Clearance', 'Display'].indexOf(x.type) > -1 });
-				const nonSellingAssignments = assignments.data.data.filter((x) => { return ['Overstock', 'Topstock', 'Stockroom'].indexOf(x.type) > -1 });
-				this.setState({ ...this.state, product: product.data.data, sellingAssignments: sellingAssignments, nonSellingAssignments: nonSellingAssignments });
+				axios.get('/module/site/' + this.props.apiUser.site.code + '/product/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((modules) => {
+					const sellingAssignments = assignments.data.data.filter((x) => { return ['Multi-Location', 'Clearance', 'Display'].indexOf(x.type) > -1 });
+					const nonSellingAssignments = assignments.data.data.filter((x) => { return ['Overstock', 'Topstock', 'Stockroom'].indexOf(x.type) > -1 });
+					const moduleLocations = [];
+					for (const module of modules.data.data) {
+						if (!module.bay) continue;
+						for (var i = 0; i < module.module.products.length; i++) {
+							if (module.module.products[i].product.ean === this.state.ean) {
+								moduleLocations.push({
+									ean: this.state.ean,
+									aisle: module.bay.aisle.aisle,
+									bay: module.bay.bay,
+									facings: module.module.products[i].facings,
+									sequence: i + 1
+								});
+							}
+						}
+					}
+					this.setState({ ...this.state, product: product.data.data, sellingAssignments, nonSellingAssignments, modules: moduleLocations });
+				}, (error) => {
+					this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
+				});
 			}, (error) => {
 				this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
 			});
@@ -58,7 +77,7 @@ class Products extends React.Component {
 					<>
 						<ProductHeader product={this.state.product.product} />
 						<ProductQuantity quantity={this.state.product.quantity} />
-						<ProductLocations sellingAssignments={this.state.sellingAssignments} nonSellingAssignments={this.state.nonSellingAssignments} />
+						<ProductLocations sellingAssignments={this.state.sellingAssignments} nonSellingAssignments={this.state.nonSellingAssignments} modules={this.state.modules} />
 						<ProductInfo />
 						<ProductButtons />
 					</>
