@@ -78,7 +78,7 @@ class Products extends React.Component {
 						<ProductHeader product={this.state.product.product} />
 						<ProductQuantity quantity={this.state.product.quantity} />
 						<ProductLocations sellingAssignments={this.state.sellingAssignments} nonSellingAssignments={this.state.nonSellingAssignments} modules={this.state.modules} />
-						<ProductInfo />
+						<ProductInfo product={this.state.product.product} />
 						<ProductButtons />
 					</>
 				}
