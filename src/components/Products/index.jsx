@@ -17,6 +17,7 @@ class Products extends React.Component {
 			product: {},
 			sellingAssignments: [],
 			nonSellingAssignments: [],
+			deliveries: [],
 			tab: 0
 		};
 	}
@@ -35,24 +36,34 @@ class Products extends React.Component {
 		axios.get('/product/quantity/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((product) => {
 			axios.get('/assignment/product/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((assignments) => {
 				axios.get('/module/site/' + this.props.apiUser.site.code + '/product/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((modules) => {
-					const sellingAssignments = assignments.data.data.filter((x) => { return ['Multi-Location', 'Clearance', 'Display'].indexOf(x.type) > -1 });
-					const nonSellingAssignments = assignments.data.data.filter((x) => { return ['Overstock', 'Topstock', 'Stockroom'].indexOf(x.type) > -1 });
-					const moduleLocations = [];
-					for (const module of modules.data.data) {
-						if (!module.bay) continue;
-						for (var i = 0; i < module.module.products.length; i++) {
-							if (module.module.products[i].product.ean === this.state.ean) {
-								moduleLocations.push({
-									ean: this.state.ean,
-									aisle: module.bay.aisle.aisle,
-									bay: module.bay.bay,
-									facings: module.module.products[i].facings,
-									sequence: i + 1
-								});
+					axios.get('/delivery/product/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((deliveries) => {
+						const sellingAssignments = assignments.data.data.filter((x) => { return ['Multi-Location', 'Clearance', 'Display'].indexOf(x.type) > -1 });
+						const nonSellingAssignments = assignments.data.data.filter((x) => { return ['Overstock', 'Topstock', 'Stockroom'].indexOf(x.type) > -1 });
+						const moduleLocations = [];
+						deliveries = deliveries.data.data.filter((x) => { return x.status !== 'Completed'; });
+						for (const module of modules.data.data) {
+							if (!module.bay) continue;
+							for (var i = 0; i < module.module.products.length; i++) {
+								if (module.module.products[i].product.ean === this.state.ean) {
+									moduleLocations.push({
+										ean: this.state.ean,
+										aisle: module.bay.aisle.aisle,
+										bay: module.bay.bay,
+										facings: module.module.products[i].facings,
+										sequence: i + 1
+									});
+								}
 							}
 						}
-					}
-					this.setState({ ...this.state, product: product.data.data, sellingAssignments, nonSellingAssignments, moduleLocations, modules: modules.data.data });
+						this.setState({ 
+							...this.state,
+							product: product.data.data,
+							sellingAssignments,
+							nonSellingAssignments,
+							moduleLocations, modules: modules.data.data,
+							deliveries
+						});
+					});
 				}, (error) => {
 					this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
 				});
@@ -79,7 +90,7 @@ class Products extends React.Component {
 						<ProductQuantity quantity={this.state.product.quantity} />
 						<ProductLocations sellingAssignments={this.state.sellingAssignments} nonSellingAssignments={this.state.nonSellingAssignments} modules={this.state.moduleLocations} />
 						<ProductInfo product={this.state.product.product} />
-						<ProductButtons modules={this.state.modules} />
+						<ProductButtons ean={this.state.ean} modules={this.state.modules} deliveries={this.state.deliveries} />
 					</>
 				}
 			</>

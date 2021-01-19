@@ -1,4 +1,5 @@
 import React from 'react';
+import ProductDeliveries from './ProductDeliveries';
 import ProductModules from './ProductModules';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -25,13 +26,14 @@ class ProductButtons extends React.Component {
 							<Button variant="contained" color="primary" fullWidth size="large">Search Other Sites</Button>
 						</Grid>
 						<Grid item xs={12} sm={6} md={4}>
-							<Button variant="contained" color="primary" fullWidth size="large" disabled>Upcoming Deliveries</Button>
+							<Button variant="contained" color="primary" fullWidth size="large" onClick={() => { this.setMenu('deliveries'); }}>Upcoming Deliveries</Button>
 						</Grid>
 						<Grid item xs={12} sm={6} md={4}>
 							<Button variant="contained" color="primary" fullWidth size="large" onClick={() => { this.setMenu('modules'); }}>View Related Modules</Button>
 						</Grid>
 					</Grid>
 				</Box>
+				<ProductDeliveries open={this.state.menu === 'deliveries'} close={() => { this.setMenu(null); }} deliveries={this.props.deliveries} ean={this.props.ean} />
 				<ProductModules open={this.state.menu === 'modules'} close={() => { this.setMenu(null); }} modules={this.props.modules} />
 			</>
 		);
