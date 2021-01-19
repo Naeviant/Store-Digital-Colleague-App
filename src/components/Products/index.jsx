@@ -52,7 +52,7 @@ class Products extends React.Component {
 							}
 						}
 					}
-					this.setState({ ...this.state, product: product.data.data, sellingAssignments, nonSellingAssignments, modules: moduleLocations });
+					this.setState({ ...this.state, product: product.data.data, sellingAssignments, nonSellingAssignments, moduleLocations, modules: modules.data.data });
 				}, (error) => {
 					this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
 				});
@@ -77,9 +77,9 @@ class Products extends React.Component {
 					<>
 						<ProductHeader product={this.state.product.product} />
 						<ProductQuantity quantity={this.state.product.quantity} />
-						<ProductLocations sellingAssignments={this.state.sellingAssignments} nonSellingAssignments={this.state.nonSellingAssignments} modules={this.state.modules} />
+						<ProductLocations sellingAssignments={this.state.sellingAssignments} nonSellingAssignments={this.state.nonSellingAssignments} modules={this.state.moduleLocations} />
 						<ProductInfo product={this.state.product.product} />
-						<ProductButtons />
+						<ProductButtons modules={this.state.modules} />
 					</>
 				}
 			</>
