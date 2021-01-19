@@ -46,8 +46,7 @@ class ProductCheckStock extends React.Component {
 	onChange = (e) => {
 		this.setState({ ...this.state, loading: true });
 		axios.get('/product/quantity/' + this.state.sites[e.target.value].code + '/' + this.props.ean, { headers: { Authorization: this.props.apiToken } }).then((quantity) => {
-			console.log(quantity)
-			this.setState({ ...this.state, quantity: { quantity: quantity.data.data.quantity, site: this.state.sites[e.target.value] }, loading: false })
+			this.setState({ ...this.state, quantity: { quantity: quantity.data.data.quantity, site: this.state.sites[e.target.value] }, loading: false });
 		});
 	}
 
