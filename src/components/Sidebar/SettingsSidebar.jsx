@@ -15,8 +15,8 @@ class SettingsSidebar extends React.Component {
 	render() {
 		return (
 			<SubMenu {...this.props}>
-				<ListItemLink component={Link} to="/settings/user" href="#" onClick={this.props.close}>
-					<ListItemText primary="User Information" />
+				<ListItemLink component={Link} to="/settings" href="#" onClick={this.props.close}>
+					<ListItemText primary="General Information" />
 				</ListItemLink>
 			</SubMenu>
 		)
