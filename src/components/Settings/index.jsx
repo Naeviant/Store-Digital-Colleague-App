@@ -29,7 +29,7 @@ class Settings extends React.Component {
                         </TableRow>
                         <TableRow>
                             <TableCell><strong>Supported API Version</strong></TableCell>
-                            <TableCell>V1.5.2</TableCell>
+                            <TableCell>V1.6.0</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell><strong>User Name</strong></TableCell>
