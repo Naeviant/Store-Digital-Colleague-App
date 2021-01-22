@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { showBanner } from '../../actions/bannerActions';
+import Loading from '../common/Loading';
 import ProductSearch from './ProductSearch';
 import ProductHeader from './ProductHeader';
 import ProductQuantity from './ProductQuantity';
@@ -33,51 +34,50 @@ class Products extends React.Component {
 	}
 
 	search = () => {
-		axios.get('/product/quantity/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((product) => {
-			axios.get('/assignment/product/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((assignments) => {
-				axios.get('/module/site/' + this.props.apiUser.site.code + '/product/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((modules) => {
-					axios.get('/delivery/product/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((deliveries) => {
-						axios.get('/review/product/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((reviews) => {
-							const sellingAssignments = assignments.data.data.filter((x) => { return ['Multi-Location', 'Clearance', 'Display'].indexOf(x.type) > -1 });
-							const nonSellingAssignments = assignments.data.data.filter((x) => { return ['Overstock', 'Topstock', 'Stockroom'].indexOf(x.type) > -1 });
-							const moduleLocations = [];
-							deliveries = deliveries.data.data.filter((x) => { return x.status !== 'Completed'; });
-							for (const module of modules.data.data) {
-								if (!module.bay) continue;
-								for (var i = 0; i < module.module.products.length; i++) {
-									if (module.module.products[i].product.ean === this.state.ean) {
-										moduleLocations.push({
-											ean: this.state.ean,
-											aisle: module.bay.aisle.aisle,
-											bay: module.bay.bay,
-											facings: module.module.products[i].facings,
-											sequence: i + 1
-										});
-									}
-								}
-							}
-							this.setState({ 
-								...this.state,
-								product: product.data.data,
-								sellingAssignments,
-								nonSellingAssignments,
-								moduleLocations, modules: modules.data.data,
-								deliveries,
-								reviews: reviews.data.data
-							});
-						}, (error) => {
-							this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
+		this.setState({ ...this.state, loading: true });
+		Promise.all([
+			axios.get('/product/quantity/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }),
+			axios.get('/assignment/product/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }),
+			axios.get('/module/site/' + this.props.apiUser.site.code + '/product/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }),
+			axios.get('/delivery/product/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }),
+			axios.get('/review/product/' + this.state.ean, { headers: { Authorization: this.props.apiToken } })
+		]).then((all) => {
+			const product = all[0];
+			const assignments = all[1];
+			const modules = all[2];
+			const deliveries = all[3];
+			const reviews = all[4];
+
+			const sellingAssignments = assignments.data.data.filter((x) => { return ['Multi-Location', 'Clearance', 'Display'].indexOf(x.type) > -1 });
+			const nonSellingAssignments = assignments.data.data.filter((x) => { return ['Overstock', 'Topstock', 'Stockroom'].indexOf(x.type) > -1 });
+			const moduleLocations = [];
+			const incompleteDeliveries = deliveries.data.data.filter((x) => { return x.status !== 'Completed'; });
+			for (const module of modules.data.data) {
+				if (!module.bay) continue;
+				for (var i = 0; i < module.module.products.length; i++) {
+					if (module.module.products[i].product.ean === this.state.ean) {
+						moduleLocations.push({
+							ean: this.state.ean,
+							aisle: module.bay.aisle.aisle,
+							bay: module.bay.bay,
+							facings: module.module.products[i].facings,
+							sequence: i + 1
 						});
-					}, (error) => {
-						this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
-					});
-				}, (error) => {
-					this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
-				});
-			}, (error) => {
-				this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
+					}
+				}
+			}
+			this.setState({ 
+				...this.state,
+				product: product.data.data,
+				sellingAssignments,
+				nonSellingAssignments,
+				moduleLocations, modules: modules.data.data,
+				deliveries: incompleteDeliveries,
+				reviews: reviews.data.data,
+				loading: false
 			});
 		}, (error) => {
+			this.setState({ ...this.state, loading: false });
 			if (error.response.status === 400) {
 				this.props.showBanner('Cannot Get Product: EAN Not Found', 'error');
 			} else {
@@ -87,6 +87,7 @@ class Products extends React.Component {
 	}
 
 	render() {
+		if (this.state.loading) return <Loading />;
 		return (
 			<>
 				<ProductSearch onChange={this.onChange} onKeypress={this.onKeypress} search={this.search} />
