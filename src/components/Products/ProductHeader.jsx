@@ -7,6 +7,18 @@ import StarIcon from '@material-ui/icons/Star';
 import Typography from '@material-ui/core/Typography';
 
 class ProductHeader extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			rating: 0
+		}
+	}
+
+	componentDidMount() {
+		const rating = Math.round(this.props.reviews.map(x => { return x.rating; }).reduce((a, b) => a + b, 0) / this.props.reviews.length);
+		this.setState({ ...this.state, rating });
+	}
+
 	render() {
 		return (
 			<CardWrapper>
@@ -21,7 +33,13 @@ class ProductHeader extends React.Component {
 						</Grid>
 						<Grid item xs={4}>
 							<Typography variant="h5" align="right">£{this.props.product.price.toFixed(2)}</Typography>
-							<Typography align="right" color='textSecondary'><StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon /></Typography>
+							<Typography align="right">
+								{ this.state.rating > 0 ? <StarIcon style={{ color: '#ffd54f' }} /> : <StarIcon style={{ color: 'grey' }} /> }
+								{ this.state.rating > 1 ? <StarIcon style={{ color: '#ffd54f' }} /> : <StarIcon style={{ color: 'grey' }} /> }
+								{ this.state.rating > 2 ? <StarIcon style={{ color: '#ffd54f' }} /> : <StarIcon style={{ color: 'grey' }} /> }
+								{ this.state.rating > 3 ? <StarIcon style={{ color: '#ffd54f' }} /> : <StarIcon style={{ color: 'grey' }} /> }
+								{ this.state.rating > 4 ? <StarIcon style={{ color: '#ffd54f' }} /> : <StarIcon style={{ color: 'grey' }} /> }
+							</Typography>
 						</Grid>
 					</Grid>
 				</Box>

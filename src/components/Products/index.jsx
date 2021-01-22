@@ -37,32 +37,39 @@ class Products extends React.Component {
 			axios.get('/assignment/product/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((assignments) => {
 				axios.get('/module/site/' + this.props.apiUser.site.code + '/product/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((modules) => {
 					axios.get('/delivery/product/' + this.props.apiUser.site.code + '/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((deliveries) => {
-						const sellingAssignments = assignments.data.data.filter((x) => { return ['Multi-Location', 'Clearance', 'Display'].indexOf(x.type) > -1 });
-						const nonSellingAssignments = assignments.data.data.filter((x) => { return ['Overstock', 'Topstock', 'Stockroom'].indexOf(x.type) > -1 });
-						const moduleLocations = [];
-						deliveries = deliveries.data.data.filter((x) => { return x.status !== 'Completed'; });
-						for (const module of modules.data.data) {
-							if (!module.bay) continue;
-							for (var i = 0; i < module.module.products.length; i++) {
-								if (module.module.products[i].product.ean === this.state.ean) {
-									moduleLocations.push({
-										ean: this.state.ean,
-										aisle: module.bay.aisle.aisle,
-										bay: module.bay.bay,
-										facings: module.module.products[i].facings,
-										sequence: i + 1
-									});
+						axios.get('/review/product/' + this.state.ean, { headers: { Authorization: this.props.apiToken } }).then((reviews) => {
+							const sellingAssignments = assignments.data.data.filter((x) => { return ['Multi-Location', 'Clearance', 'Display'].indexOf(x.type) > -1 });
+							const nonSellingAssignments = assignments.data.data.filter((x) => { return ['Overstock', 'Topstock', 'Stockroom'].indexOf(x.type) > -1 });
+							const moduleLocations = [];
+							deliveries = deliveries.data.data.filter((x) => { return x.status !== 'Completed'; });
+							for (const module of modules.data.data) {
+								if (!module.bay) continue;
+								for (var i = 0; i < module.module.products.length; i++) {
+									if (module.module.products[i].product.ean === this.state.ean) {
+										moduleLocations.push({
+											ean: this.state.ean,
+											aisle: module.bay.aisle.aisle,
+											bay: module.bay.bay,
+											facings: module.module.products[i].facings,
+											sequence: i + 1
+										});
+									}
 								}
 							}
-						}
-						this.setState({ 
-							...this.state,
-							product: product.data.data,
-							sellingAssignments,
-							nonSellingAssignments,
-							moduleLocations, modules: modules.data.data,
-							deliveries
+							this.setState({ 
+								...this.state,
+								product: product.data.data,
+								sellingAssignments,
+								nonSellingAssignments,
+								moduleLocations, modules: modules.data.data,
+								deliveries,
+								reviews: reviews.data.data
+							});
+						}, (error) => {
+							this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
 						});
+					}, (error) => {
+						this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
 					});
 				}, (error) => {
 					this.props.showBanner('Cannot Get Product: Something Went Wrong', 'error');
@@ -86,10 +93,10 @@ class Products extends React.Component {
 				{
 					this.state.product.product &&
 					<>
-						<ProductHeader product={this.state.product.product} />
+						<ProductHeader product={this.state.product.product} reviews={this.state.reviews} />
 						<ProductQuantity quantity={this.state.product.quantity} />
 						<ProductLocations sellingAssignments={this.state.sellingAssignments} nonSellingAssignments={this.state.nonSellingAssignments} modules={this.state.moduleLocations} />
-						<ProductInfo product={this.state.product.product} />
+						<ProductInfo product={this.state.product.product} reviews={this.state.reviews} />
 						<ProductButtons ean={this.state.ean} modules={this.state.modules} deliveries={this.state.deliveries} />
 					</>
 				}
