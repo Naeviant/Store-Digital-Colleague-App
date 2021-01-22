@@ -9,6 +9,7 @@ import Modules from './components/Modules';
 import ModuleInfo from './components/Modules/ModuleInfo';
 import Deliveries from './components/Deliveries';
 import DeliveryProducts from './components/Deliveries/DeliveryProducts';
+import Collections from './components/Collections';
 import Stock from './components/Stock';
 import Movements from './components/Stock/Movements';
 import Settings from './components/Settings';
@@ -61,6 +62,9 @@ class App extends React.Component {
 										</Route>
 										<Route exact path="/deliveries/:type/:delivery">
 											<DeliveryProducts />
+										</Route>
+										<Route exact path="/collections">
+											<Collections />
 										</Route>
 										<Route exact path="/stock/correct">
 											<Stock />
