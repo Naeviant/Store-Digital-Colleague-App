@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../helpers/axios';
 
 export const login = loginData => dispatch => {
 	axios.post('/authenticate', loginData).then(async (token) => {

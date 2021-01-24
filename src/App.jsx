@@ -18,9 +18,6 @@ import Collapse from '@material-ui/core/Collapse';
 
 import './App.css';
 
-// import axios from 'axios';
-// axios.defaults.baseURL = 'http://localhost:8000/v1/';
-
 class App extends React.Component {
 	render() {
 		return (

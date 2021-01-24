@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../helpers/axios';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Loading from '../common/Loading';

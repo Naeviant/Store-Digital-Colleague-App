@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../helpers/axios';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ModuleHeader from './ModuleHeader';

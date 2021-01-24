@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../helpers/axios';
 import { connect } from 'react-redux';
 import TabPanel from '../common/TabPanel';
 import ModuleList from './ModuleList';

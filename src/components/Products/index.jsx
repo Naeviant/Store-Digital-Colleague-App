@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../helpers/axios';
 import { connect } from 'react-redux';
 import { showBanner } from '../../actions/bannerActions';
 import Loading from '../common/Loading';
